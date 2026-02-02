@@ -1,106 +1,116 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Anytime Shift - Feedback Form</title>
+  <title>Anytime Shift - Beta Feedback</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-slate-950 text-white flex items-center justify-center p-4">
-  <div class="max-w-md w-full bg-slate-900/70 border border-slate-700 rounded-2xl p-8 shadow-xl">
-    <div class="flex items-center justify-center mb-6">
-      <div class="text-2xl font-bold text-emerald-400"> ATS</div>
-    </div>
-    <h1 class="text-2xl font-semibold text-center mb-2">
-      Help us improve
-    </h1>
-    <p class="text-slate-300 text-sm text-center mb-6">
-      Your feedback helps us make Anytime Shift better for everyone.
-    </p>
-
-    <form id="feedbackForm" class="space-y-5">
-      <!-- App Experience -->
-      <div>
-        <label class="block text-sm font-medium mb-2">How would you rate your overall app experience?</label>
-        <div class="grid grid-cols-5 gap-2">
-          <button type="button" data-rating="1" class="rating-btn app-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">1</button>
-          <button type="button" data-rating="2" class="rating-btn app-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">2</button>
-          <button type="button" data-rating="3" class="rating-btn app-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">3</button>
-          <button type="button" data-rating="4" class="rating-btn app-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">4</button>
-          <button type="button" data-rating="5" class="rating-btn app-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">5</button>
+<body class="bg-gray-50 text-gray-900 font-sans">
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="text-2xl font-bold">
+          <span class="text-blue-900">Anytime</span><span class="text-red-600">Shift</span>
         </div>
       </div>
+    </header>
 
-      <!-- UI/UX -->
-      <div>
-        <label class="block text-sm font-medium mb-2">How would you rate the UI/UX?</label>
-        <div class="grid grid-cols-5 gap-2">
-          <button type="button" data-rating="1" class="rating-btn uiux-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">1</button>
-          <button type="button" data-rating="2" class="rating-btn uiux-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">2</button>
-          <button type="button" data-rating="3" class="rating-btn uiux-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">3</button>
-          <button type="button" data-rating="4" class="rating-btn uiux-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">4</button>
-          <button type="button" data-rating="5" class="rating-btn uiux-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">5</button>
+    <!-- Main -->
+    <main class="flex-grow flex items-center justify-center px-4 py-8">
+      <div class="w-full max-w-md">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+          <h1 class="text-3xl font-bold text-center mb-1">
+            <span class="text-red-600">Help Us</span> Improve
+          </h1>
+          <p class="text-gray-600 text-center mb-8">
+            Your feedback helps us make Anytime Shift better for everyone.
+          </p>
+
+          <form id="feedbackForm" class="space-y-6">
+            <!-- App Experience Rating -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-3">How was your overall app experience?</label>
+              <div class="grid grid-cols-5 gap-2">
+                <button type="button" data-rating="1" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">1</button>
+                <button type="button" data-rating="2" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">2</button>
+                <button type="button" data-rating="3" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">3</button>
+                <button type="button" data-rating="4" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">4</button>
+                <button type="button" data-rating="5" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">5</button>
+              </div>
+            </div>
+
+            <!-- UI/UX Rating -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-3">How would you rate the UI/UX?</label>
+              <div class="grid grid-cols-5 gap-2">
+                <button type="button" data-rating="1" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">1</button>
+                <button type="button" data-rating="2" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">2</button>
+                <button type="button" data-rating="3" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">3</button>
+                <button type="button" data-rating="4" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">4</button>
+                <button type="button" data-rating="5" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">5</button>
+              </div>
+            </div>
+
+            <!-- Performance Rating -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-3">How would you rate the app performance?</label>
+              <div class="grid grid-cols-5 gap-2">
+                <button type="button" data-rating="1" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">1</button>
+                <button type="button" data-rating="2" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">2</button>
+                <button type="button" data-rating="3" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">3</button>
+                <button type="button" data-rating="4" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">4</button>
+                <button type="button" data-rating="5" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">5</button>
+              </div>
+            </div>
+
+            <!-- General Feedback -->
+            <div>
+              <label for="generalFeedback" class="block text-sm font-semibold text-gray-900 mb-2">Additional feedback (optional)</label>
+              <textarea id="generalFeedback" rows="4" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:outline-none focus:border-blue-900 transition" placeholder="Tell us what you think..."></textarea>
+            </div>
+
+            <!-- Contact for follow up -->
+            <div class="flex items-center space-x-3">
+              <input type="checkbox" id="contactForFollowUp" class="w-4 h-4 rounded border-gray-300 text-blue-900 focus:ring-blue-900" />
+              <label for="contactForFollowUp" class="text-sm text-gray-900">
+                You can contact me for follow-up questions
+              </label>
+            </div>
+
+            <!-- Error/Success Messages -->
+            <p id="errorMsg" class="text-sm text-red-600 hidden text-center"></p>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition">
+              Submit Feedback
+            </button>
+          </form>
+
+          <!-- Thank You State -->
+          <div id="thankYou" class="hidden text-center">
+            <div class="flex justify-center mb-4">
+              <svg class="h-16 w-16 text-red-600" viewBox="0 0 24 24" fill="none">
+                ircle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                <path d="M8 12.5L10.5 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold mb-2 text-blue-900">Thank You!</h2>
+            <p class="text-gray-600">
+              We really appreciate you taking the time to help us improve Anytime Shift.
+            </p>
+          </div>
         </div>
+        <p class="text-center text-sm text-gray-600 mt-6"> 2026 Anytime Shift. All rights reserved.</p>
       </div>
-
-      <!-- Performance -->
-      <div>
-        <label class="block text-sm font-medium mb-2">How would you rate the app performance?</label>
-        <div class="grid grid-cols-5 gap-2">
-          <button type="button" data-rating="1" class="rating-btn performance-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">1</button>
-          <button type="button" data-rating="2" class="rating-btn performance-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">2</button>
-          <button type="button" data-rating="3" class="rating-btn performance-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">3</button>
-          <button type="button" data-rating="4" class="rating-btn performance-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">4</button>
-          <button type="button" data-rating="5" class="rating-btn performance-rating px-2 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">5</button>
-        </div>
-      </div>
-
-      <!-- General Feedback -->
-      <div>
-        <label for="generalFeedback" class="block text-sm font-medium mb-2">Additional feedback (optional)</label>
-        <textarea id="generalFeedback" rows="4"
-                  class="w-full px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400" 
-                  placeholder="Tell us what you think..."></textarea>
-      </div>
-
-      <!-- Contact for follow up -->
-      <div class="flex items-center space-x-2">
-        <input type="checkbox" id="contactForFollowUp" 
-               class="w-4 h-4 rounded border-slate-600 bg-slate-800 text-emerald-500 focus:ring-emerald-400" />
-        <label for="contactForFollowUp" class="text-sm">
-          You can contact me for follow-up questions
-        </label>
-      </div>
-
-      <p id="errorMsg" class="text-sm text-red-400 hidden"></p>
-      <p id="successMsg" class="text-sm text-emerald-400 hidden"></p>
-
-      <button type="submit"
-              class="w-full mt-2 px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-sm font-medium text-slate-900 transition">
-        Submit Feedback
-      </button>
-    </form>
-
-    <!-- Thank you state -->
-    <div id="thankYou" class="hidden mt-4 text-center">
-      <div class="flex justify-center mb-3">
-        <svg class="h-12 w-12 text-emerald-400" viewBox="0 0 24 24" fill="none">
-          ircle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-          <path d="M8 12.5L10.5 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </div>
-      <h2 class="text-lg font-semibold mb-1">Thank you for your feedback!</h2>
-      <p class="text-sm text-slate-300">
-        We really appreciate you taking the time to help us improve Anytime Shift.
-      </p>
-    </div>
+    </main>
   </div>
 
   <script>
     const form = document.getElementById('feedbackForm');
     const thankYou = document.getElementById('thankYou');
     const errorMsg = document.getElementById('errorMsg');
-    const successMsg = document.getElementById('successMsg');
     
     let appExperienceRating = null;
     let uiUxRating = null;
@@ -120,9 +130,11 @@
     function setRatingActive(groupClass, value) {
       document.querySelectorAll('.' + groupClass).forEach(btn => {
         if (btn.dataset.rating === String(value)) {
-          btn.classList.add('bg-emerald-500', 'text-slate-900', 'border-emerald-400');
+          btn.classList.add('bg-blue-900', 'text-white', 'border-blue-900');
+          btn.classList.remove('border-gray-300');
         } else {
-          btn.classList.remove('bg-emerald-500', 'text-slate-900', 'border-emerald-400');
+          btn.classList.remove('bg-blue-900', 'text-white', 'border-blue-900');
+          btn.classList.add('border-gray-300');
         }
       });
     }
@@ -172,7 +184,6 @@
       };
 
       try {
-        // Call your feedback endpoint (we'll create this)
         const res = await fetch('/.netlify/functions/submitFeedback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
