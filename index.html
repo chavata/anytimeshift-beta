@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Anytime Shift Beta Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+  <div class="min-h-screen flex flex-col">
+    <header class="bg-white border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="text-2xl font-bold">
+          <span class="text-blue-900">Anytime</span><span class="text-red-600">Shift</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-4 py-8">
+      <div class="w-full max-w-md">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+          <h1 class="text-3xl font-bold text-center mb-2">
+            <span class="text-blue-900">Anytime</span><span class="text-red-600">Shift</span>
+          </h1>
+          <h2 class="text-2xl font-bold text-center mb-1 text-red-600">Beta Testing</h2>
+          <p class="text-gray-600 text-center mb-8">Join us early and help shape the future of flexible work.</p>
+
+          <form id="betaForm" class="space-y-6">
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-3">Select Your Platform</label>
+              <div class="grid grid-cols-2 gap-3">
+                <button type="button" data-platform="android" class="platform-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:border-blue-900 transition"> Android</button>
+                <button type="button" data-platform="ios" class="platform-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:border-blue-900 transition"> iOS</button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-3">I am a</label>
+              <div class="grid grid-cols-2 gap-3">
+                <button type="button" data-role="employee" class="role-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:border-blue-900 transition"> Shift Seeker</button>
+                <button type="button" data-role="employer" class="role-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:border-blue-900 transition"> Business</button>
+              </div>
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-semibold text-gray-900 mb-2">Email Address</label>
+              <input id="email" type="email" required class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:outline-none focus:border-blue-900 transition" placeholder="your@email.com" />
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-3">Help us improve with feedback?</label>
+              <div class="grid grid-cols-2 gap-3">
+                <button type="button" data-feedback="yes" class="feedback-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:border-blue-900 transition"> Yes</button>
+                <button type="button" data-feedback="no" class="feedback-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:border-blue-900 transition"> No</button>
+              </div>
+            </div>
+
+            <p id="errorMsg" class="text-sm text-red-600 hidden text-center"></p>
+            <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition">Get Beta Access</button>
+          </form>
+
+          <div id="thankYou" class="hidden text-center">
+            <div class="flex justify-center mb-4">
+              <svg class="h-16 w-16 text-red-600" viewBox="0 0 24 24" fill="none">
+                ircle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                <path d="M8 12.5L10.5 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold mb-2 text-blue-900">You're In!</h2>
+            <p class="text-gray-600">Check your email for your beta app link. Look in your inbox and spam folder.</p>
+          </div>
+        </div>
+        <p class="text-center text-sm text-gray-600 mt-6"> 2026 Anytime Shift. All rights reserved.</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const form = document.getElementById('betaForm');
+    const thankYou = document.getElementById('thankYou');
+    const errorMsg = document.getElementById('errorMsg');
+    let selectedPlatform = null;
+    let selectedRole = null;
+    let wantsFeedback = null;
+
+    function setActive(groupClass, value) {
+      document.querySelectorAll('.' + groupClass).forEach(btn => {
+        const key = groupClass === 'platform-btn' ? 'platform' : groupClass === 'role-btn' ? 'role' : 'feedback';
+        if (btn.dataset[key] === value) {
+          btn.classList.add('bg-blue-900', 'text-white', 'border-blue-900');
+          btn.classList.remove('border-gray-300');
+        } else {
+          btn.classList.remove('bg-blue-900', 'text-white', 'border-blue-900');
+          btn.classList.add('border-gray-300');
+        }
+      });
+    }
+
+    document.querySelectorAll('.platform-btn').forEach(btn => {
+      btn.addEventListener('click', () => { selectedPlatform = btn.dataset.platform; setActive('platform-btn', selectedPlatform); });
+    });
+
+    document.querySelectorAll('.role-btn').forEach(btn => {
+      btn.addEventListener('click', () => { selectedRole = btn.dataset.role; setActive('role-btn', selectedRole); });
+    });
+
+    document.querySelectorAll('.feedback-btn').forEach(btn => {
+      btn.addEventListener('click', () => { wantsFeedback = btn.dataset.feedback === 'yes'; setActive('feedback-btn', btn.dataset.feedback); });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.classList.add('hidden');
+      const email = document.getElementById('email').value.trim();
+
+      if (!selectedPlatform || !selectedRole || wantsFeedback === null) {
+        errorMsg.textContent = 'Please complete all fields.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const res = await fetch('/.netlify/functions/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, platform: selectedPlatform, role: selectedRole, wantsFeedback })
+        });
+
+        if (!res.ok) throw new Error('Submission failed');
+        form.classList.add('hidden');
+        thankYou.classList.remove('hidden');
+      } catch (err) {
+        errorMsg.textContent = 'Unable to submit. Please try again.';
+        errorMsg.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
