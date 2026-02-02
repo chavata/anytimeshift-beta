@@ -11,10 +11,10 @@
   [headers.values]
     Access-Control-Allow-Origin = "*"
 
-[[functions]]
+[[scheduled_functions]]
   name = "sendFeedbackEmails-scheduled"
   schedule = "@hourly"
 
-[[functions]]
+[[scheduled_functions]]
   name = "sendFeedbackReminders-scheduled"
   schedule = "@hourly"
