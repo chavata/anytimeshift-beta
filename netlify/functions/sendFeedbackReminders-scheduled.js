@@ -13,7 +13,7 @@ exports.handler = async () => {
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
-      auth: { user: 'vasutapasvi@gmail.com', pass: process.env.EMAIL_PASS }
+      auth: { user: 'info@anytimeshift.com', pass: process.env.EMAIL_PASS }
     });
 
     for (const tester of testers) {
@@ -21,7 +21,7 @@ exports.handler = async () => {
       const feedbackLink = `${FEEDBACK_FORM_URL_BASE}?token=${encodeURIComponent(token)}`;
 
       await transporter.sendMail({
-        from: '"Anytime Shift" <vasutapasvi@gmail.com>',
+        from: '"Anytime Shift" <info@anytimeshift.com>',
         to: email,
         subject: 'Friendly reminder: Anytime Shift beta feedback',
         text: `Hi,\n\nThis is a friendly reminder to share your feedback on the Anytime Shift beta app: ${feedbackLink}\n\nAnytime Shift Team`

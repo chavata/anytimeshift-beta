@@ -43,11 +43,11 @@ exports.handler = async (event) => {
     // 3) Send immediate email
     const transporter = nodemailer.createTransport({
       service: 'gmail',
-      auth: { user: 'vasutapasvi@gmail.com', pass: process.env.EMAIL_PASS }
+      auth: { user: 'info@anytimeshift.com', pass: process.env.EMAIL_PASS }
     });
 
     await transporter.sendMail({
-      from: '"Anytime Shift" <vasutapasvi@gmail.com>',
+      from: '"Anytime Shift" <info@anytimeshift.com>',
       to: email,
       subject: 'Your Anytime Shift beta app link',
       text: `Hi,\n\nThanks for enrolling in the Anytime Shift beta testing program.\nHere is your app link for ${appName}:\n${appLink}\n\nWe appreciate your support,\nAnytime Shift Team`
