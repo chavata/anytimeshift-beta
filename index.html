@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Anytime Shift Beta Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-white flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-slate-900/70 border border-slate-700 rounded-2xl p-8 shadow-xl">
+    <div class="flex items-center justify-center mb-6">
+      <div class="text-2xl font-bold text-emerald-400"> ATS</div>
+    </div>
+    <h1 class="text-2xl font-semibold text-center mb-2">
+      Anytime Shift Beta
+    </h1>
+    <p class="text-slate-300 text-sm text-center mb-6">
+      Sign up to test the Anytime Shift apps early and help us improve the experience.
+    </p>
+
+    <form id="betaForm" class="space-y-5">
+      <!-- Platform -->
+      <div>
+        <label class="block text-sm font-medium mb-2">Platform</label>
+        <div class="grid grid-cols-2 gap-3">
+          <button type="button" data-platform="android"
+                  class="platform-btn px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">
+            Android
+          </button>
+          <button type="button" data-platform="ios"
+                  class="platform-btn px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">
+            iOS
+          </button>
+        </div>
+      </div>
+
+      <!-- Role -->
+      <div>
+        <label class="block text-sm font-medium mb-2">You are</label>
+        <div class="grid grid-cols-2 gap-3">
+          <button type="button" data-role="employee"
+                  class="role-btn px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">
+            Employee
+          </button>
+          <button type="button" data-role="employer"
+                  class="role-btn px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">
+            Employer
+          </button>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm font-medium mb-2">Email address</label>
+        <input id="email" type="email" required
+               class="w-full px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+      </div>
+
+      <!-- Feedback opt in -->
+      <div>
+        <label class="block text-sm font-medium mb-2">
+          Would you like to provide additional feedback later?
+        </label>
+        <div class="grid grid-cols-2 gap-3">
+          <button type="button" data-feedback="yes"
+                  class="feedback-btn px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">
+            Yes
+          </button>
+          <button type="button" data-feedback="no"
+                  class="feedback-btn px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-sm hover:border-emerald-400 transition">
+            No
+          </button>
+        </div>
+      </div>
+
+      <p id="errorMsg" class="text-sm text-red-400 hidden"></p>
+
+      <button type="submit"
+              class="w-full mt-2 px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-sm font-medium text-slate-900 transition">
+        Get beta app link
+      </button>
+    </form>
+
+    <!-- Thank you state -->
+    <div id="thankYou" class="hidden mt-4 text-center">
+      <div class="flex justify-center mb-3">
+        <svg class="h-12 w-12 text-emerald-400" viewBox="0 0 24 24" fill="none">
+          ircle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+          <path d="M8 12.5L10.5 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <h2 class="text-lg font-semibold mb-1">Thanks for signing up!</h2>
+      <p class="text-sm text-slate-300">
+        Please check your inbox for the beta app link. It may take a minute and could land in spam or promotions.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('betaForm');
+    const thankYou = document.getElementById('thankYou');
+    const errorMsg = document.getElementById('errorMsg');
+    let selectedPlatform = null;
+    let selectedRole = null;
+    let wantsFeedback = null;
+
+    function setActive(groupClass, value) {
+      document.querySelectorAll('.' + groupClass).forEach(btn => {
+        const key = groupClass === 'platform-btn' ? 'platform' :
+                    groupClass === 'role-btn' ? 'role' : 'feedback';
+        if (btn.dataset[key] === value) {
+          btn.classList.add('bg-emerald-500', 'text-slate-900', 'border-emerald-400');
+        } else {
+          btn.classList.remove('bg-emerald-500', 'text-slate-900', 'border-emerald-400');
+        }
+      });
+    }
+
+    document.querySelectorAll('.platform-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedPlatform = btn.dataset.platform;
+        setActive('platform-btn', selectedPlatform);
+      });
+    });
+
+    document.querySelectorAll('.role-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedRole = btn.dataset.role;
+        setActive('role-btn', selectedRole);
+      });
+    });
+
+    document.querySelectorAll('.feedback-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        wantsFeedback = btn.dataset.feedback === 'yes';
+        setActive('feedback-btn', btn.dataset.feedback);
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.classList.add('hidden');
+      errorMsg.textContent = '';
+
+      const email = document.getElementById('email').value.trim();
+
+      if (!selectedPlatform || !selectedRole || wantsFeedback === null) {
+        errorMsg.textContent = 'Please select platform, your role, and feedback preference.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+      if (!email) {
+        errorMsg.textContent = 'Please enter a valid email address.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      const payload = {
+        email,
+        platform: selectedPlatform,
+        role: selectedRole,
+        wantsFeedback
+      };
+
+      try {
+        const res = await fetch('/.netlify/functions/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.message || 'Something went wrong. Please try again.');
+        }
+
+        form.classList.add('hidden');
+        thankYou.classList.remove('hidden');
+      } catch (err) {
+        errorMsg.textContent = err.message || 'Unable to submit at the moment.';
+        errorMsg.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

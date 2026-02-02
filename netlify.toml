@@ -1,0 +1,20 @@
+﻿[build]
+  command = ""
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+
+[[functions]]
+  name = "sendFeedbackEmails-scheduled"
+  schedule = "@hourly"
+
+[[functions]]
+  name = "sendFeedbackReminders-scheduled"
+  schedule = "@hourly"
