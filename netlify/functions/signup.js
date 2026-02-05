@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+﻿const nodemailer = require('nodemailer');
 const axios = require('axios');
 const { google } = require('googleapis');
 
@@ -97,10 +97,10 @@ exports.handler = async (event) => {
     let appName = '';
 
     if (platform === 'android' && role === 'employee') {
-      appLink = 'https://play.google.com/store/apps/details?id=com.anytimeshift.employee';
+      appLink = 'https://play.google.com/apps/internaltest/4701244117919733299';
       appName = 'Anytime Shift App';
     } else if (platform === 'android' && role === 'employer') {
-      appLink = 'https://play.google.com/store/apps/details?id=com.anytimeshift.employer';
+      appLink = 'https://play.google.com/apps/internaltest/4700935281386516321';
       appName = 'Anytime Shift for Business';
     } else if (platform === 'ios' && role === 'employee') {
       appLink = 'https://testflight.apple.com/join/hUTzGr2L';
