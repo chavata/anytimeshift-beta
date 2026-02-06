@@ -14,28 +14,52 @@ async function addEmailToPlayStore(email, packageName, track) {
     });
     const authClient = await auth.getClient();
     const androidpublisher = google.androidpublisher({ version: "v3", auth: authClient });
-
-    const response = await androidpublisher.edits.create({
+    
+    // Create an edit
+    const editResponse = await androidpublisher.edits.insert({
       packageName: packageName
     });
-    const editId = response.data.id;
-
-    await androidpublisher.edits.testers.update({
+    const editId = editResponse.data.id;
+    
+    // Get the current testers list for the track
+    let currentTesters = [];
+    try {
+      const testersResponse = await androidpublisher.edits.testers.get({
+        packageName: packageName,
+        editId: editId,
+        track: track
+      });
+      currentTesters = testersResponse.data.testers || [];
+    } catch (err) {
+      console.log("No existing testers, starting fresh");
+    }
+    
+    // Add the new email if not already in the list
+    if (!currentTesters.includes(email)) {
+      currentTesters.push(email);
+    }
+    
+    // Update the testers list
+    await androidpublisher.edits.testers.patch({
       packageName: packageName,
-      track: track,
       editId: editId,
-      requestBody: { emails: [email] }
+      track: track,
+      requestBody: {
+        testers: currentTesters
+      }
     });
-
+    
+    // Commit the edit
     await androidpublisher.edits.commit({
       packageName: packageName,
       editId: editId
     });
-
-    console.log("Added", email, "to", packageName, "on", track);
+    
+    console.log("Successfully added", email, "to", packageName, "on", track);
     return true;
   } catch (err) {
     console.error("Error adding email to Play Store:", err.message);
+    console.error("Full error:", err);
     return false;
   }
 }
@@ -56,17 +80,20 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ message: "Missing required fields" }) };
     }
 
+    // Try to post to beta_testers API (optional)
     try {
       await axios.post(BETA_TESTERS_API, { email, platform, role, wantsFeedback });
     } catch (apiErr) {
       console.error("Error calling beta_testers API:", apiErr.message);
     }
 
+    // Add email to Play Store internal testing for Android
     if (platform === "android") {
       const packageName = role === "employee" ? "com.anytimeshift.employee" : "com.anytimeshift.employer";
-      await addEmailToPlayStore(email, packageName, "internalTesting");
+      await addEmailToPlayStore(email, packageName, "internal");
     }
 
+    // Determine app link and name based on platform and role
     let appLink = "";
     let appName = "";
 
@@ -84,6 +111,7 @@ exports.handler = async (event) => {
       appName = "Anytime Shift for Business (iOS TestFlight)";
     }
 
+    // Send email with app link
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: { user: "info@anytimeshift.com", pass: process.env.EMAIL_PASS }
@@ -98,10 +126,14 @@ exports.handler = async (event) => {
 
     await transporter.sendMail(mailOptions);
 
+    // Register beta tester in Google Apps Script
     try {
       await axios.post(GAS_ENDPOINT, {
         action: "registerBetaTester",
-        email, platform, role, wantsFeedback,
+        email, 
+        platform, 
+        role, 
+        wantsFeedback,
         initialEmailSentAt: new Date().toISOString()
       });
     } catch (gasErr) {
