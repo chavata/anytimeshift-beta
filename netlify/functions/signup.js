@@ -5,66 +5,11 @@ const { google } = require("googleapis");
 const BETA_TESTERS_API = "https://api.anytimeshift.com/beta_testers";
 const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxc5XmLcS3WgN8_jojcZFPz2HPqcKHYo4zEtDURqiQQ2Gb7IklEZ4m8yReqbBGrFGEb/exec";
 
-// Helper to add email to Play Store (kept for logging; API limitation prevents per-email adds)
-async function addEmailToPlayStore(email, packageName, track) {
-  try {
-    const credentials = JSON.parse(process.env.GOOGLE_PLAY_API_JSON);
-    const auth = new google.auth.GoogleAuth({
-      credentials,
-      scopes: ["https://www.googleapis.com/auth/androidpublisher"]
-    });
-    const authClient = await auth.getClient();
-    const androidpublisher = google.androidpublisher({ version: "v3", auth: authClient });
+// (Optional) keep this if you ever want to manage Google Groups from Node;
+// right now all group membership is handled in Apps Script, so this helper
+// is intentionally unused.
 
-    // Create an edit
-    const editResponse = await androidpublisher.edits.insert({
-      packageName: packageName
-    });
-    const editId = editResponse.data.id;
-
-    // Get the current testers list for the track
-    let currentTesters = [];
-    try {
-      const testersResponse = await androidpublisher.edits.testers.get({
-        packageName: packageName,
-        editId: editId,
-        track: track
-      });
-
-      // NOTE: API does not actually support per-email testers; this will not return what we expect
-      currentTesters = testersResponse.data.testers || [];
-    } catch (err) {
-      console.log("No existing testers, starting fresh");
-    }
-
-    if (!currentTesters.includes(email)) {
-      currentTesters.push(email);
-    }
-
-    // This PATCH body is rejected by the API (no 'testers' field),
-    // but we keep it for logging; real per-email enrollment must be manual.
-    await androidpublisher.edits.testers.patch({
-      packageName: packageName,
-      editId: editId,
-      track: track,
-      requestBody: {
-        testers: currentTesters
-      }
-    });
-
-    await androidpublisher.edits.commit({
-      packageName: packageName,
-      editId: editId
-    });
-
-    console.log("Successfully (attempted) to add", email, "to", packageName, "on", track);
-    return true;
-  } catch (err) {
-    console.error("Error adding email to Play Store:", err.message);
-    console.error("Full error:", err);
-    return false;
-  }
-}
+// exports.addEmailToPlayStore = ...
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
@@ -128,15 +73,17 @@ exports.handler = async (event) => {
       console.log("Warning: Failed to post to BETA_TESTERS_API:", err.message);
     }
 
-    // Save to Google Apps Script (Sheet + feedback scheduling)
+    // Save to Google Apps Script (Sheet + feedback + group enrollment)
     try {
       await axios.post(
         GAS_ENDPOINT,
         {
+          action: "registerBetaTester",
+          email,
           platform: normalizedPlatform,
           role: normalizedRole,
-          email,
-          wantsFeedback: !!wantsFeedback
+          wantsFeedback: !!wantsFeedback,
+          initialEmailSentAt: new Date().toISOString()
         },
         { timeout: 5000 }
       );
@@ -150,7 +97,7 @@ exports.handler = async (event) => {
       auth: { user: "info@anytimeshift.com", pass: process.env.EMAIL_PASS }
     });
 
-    // INTERNAL ALERT helper (new)
+    // INTERNAL ALERT helper
     async function sendInternalAlert({ email, platform, role }) {
       try {
         const subject = `New ${platform} beta signup – ${role}`;
@@ -191,7 +138,11 @@ exports.handler = async (event) => {
       appLink,
       ``,
       `Platform: ${normalizedPlatform === "android" ? "Android" : "iOS"}`,
-      `Role: ${normalizedRole === "employee" ? "Shift Seeker (Employee)" : "Business (Employer)"}`,
+      `Role: ${
+        normalizedRole === "employee"
+          ? "Shift Seeker (Employee)"
+          : "Business (Employer)"
+      }`,
       ``,
       wantsFeedback
         ? "You'll receive a follow-up email in a few hours to share your feedback."
@@ -209,16 +160,6 @@ exports.handler = async (event) => {
     });
 
     console.log("Welcome email sent to", email);
-
-    // Attempt Play Store add (will fail due to API limitation, but safe)
-    if (normalizedPlatform === "android" && packageName) {
-      try {
-        const ok = await addEmailToPlayStore(email, packageName, "internal");
-        console.log("addEmailToPlayStore result:", ok);
-      } catch (err) {
-        console.log("Play Store add failed (expected limitation):", err.message);
-      }
-    }
 
     // Fire-and-forget internal alert for Android signups
     if (normalizedPlatform === "android") {
