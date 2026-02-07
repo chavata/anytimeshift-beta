@@ -1,8 +1,9 @@
 const nodemailer = require('nodemailer');
 const axios = require('axios');
 
-const GAS_ENDPOINT = 'https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbxc5XmLcS3WgN8_jojcZFPz2HPqcKHYo4zEtDURqiQQ2Gb7IklEZ4m8yReqbBGrFGEb/exec/exec';
-const FEEDBACK_FORM_URL_BASE = 'https://your-site-name.netlify.app/feedback';
+const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxc5XmLcS3WgN8_jojcZFPz2HPqcKHYo4zEtDURqiQQ2Gb7IklEZ4m8yReqbBGrFGEb/exec';
+const FEEDBACK_FORM_URL_BASE = 'https://anytimeshift-beta.netlify.app/feedback';
+
 
 exports.handler = async () => {
   try {
