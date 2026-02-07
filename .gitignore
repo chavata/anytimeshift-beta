@@ -3,3 +3,6 @@
 *service-account*.json
 *credentials*.json
 anytime-shift-gmail-*.json
+
+# Local Netlify folder
+.netlify

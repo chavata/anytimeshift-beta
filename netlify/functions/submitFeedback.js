@@ -1,5 +1,5 @@
 const axios = require('axios');
-const GAS_ENDPOINT = 'https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbxc5XmLcS3WgN8_jojcZFPz2HPqcKHYo4zEtDURqiQQ2Gb7IklEZ4m8yReqbBGrFGEb/exec/exec';
+const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxc5XmLcS3WgN8_jojcZFPz2HPqcKHYo4zEtDURqiQQ2Gb7IklEZ4m8yReqbBGrFGEb/exec';
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
