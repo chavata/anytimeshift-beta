@@ -1,16 +1,12 @@
 [build]
-  command = ""
-  publish = "."
+command = ""
+publish = "."
 
 [functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
+directory = "netlify/functions"
+node_bundler = "esbuild"
 
 [[headers]]
-  for = "/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
-
-[[scheduled_functions]]
-  name = "sendFeedbackEmails-scheduled"
-  schedule = "*/5 * * * *"  # Runs every 5 minutes
+for = "/*"
+[headers.values]
+Access-Control-Allow-Origin = "*"
