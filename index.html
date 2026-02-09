@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Anytime Shift Beta Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .btn-active {
+      background-color: #001f3f !important;
+      color: white !important;
+      border-color: #001f3f !important;
+    }
+
+    @keyframes checkmark-animation {
+      0% {
+        stroke-dashoffset: 66;
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+    }
+
+    .checkmark-circle {
+      animation: checkmark-animation 0.6s ease-in-out forwards;
+    }
+
+    .checkmark-path {
+      animation: checkmark-animation 0.8s ease-in-out forwards;
+      stroke-dasharray: 66;
+      stroke-dashoffset: 66;
+    }
+
+    @media (max-width: 640px) {
+      .form-container {
+        padding: 1.5rem;
+      }
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+      }
+      .brand-text {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+  <div class="min-h-screen flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-md">
+      <!-- Form Card -->
+      <div class="bg-white rounded-2xl shadow-lg form-container p-8">
+        <!-- Logo and Brand Name -->
+        <div class="flex items-center justify-center gap-3 mb-8">
+          <svg class="logo-icon w-16 h-16" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Blue circle background -->
+            ircle cx="50" cy="50" r="48" fill="#001f3f"/>
+            <!-- Red circle accent -->
+            ircle cx="65" cy="35" r="15" fill="#DC143C"/>
+            <!-- White A letter -->
+            <text x="50" y="65" text-anchor="middle" font-size="28" font-weight="bold" fill="white">A</text>
+          </svg>
+          <div>
+            <h1 class="brand-text text-2xl font-bold">
+              <span class="text-blue-900">Anytime</span><span class="text-red-600">Shift</span>
+            </h1>
+            <p class="text-xs text-red-600 font-semibold">Beta Testing</p>
+          </div>
+        </div>
+
+        <!-- Subtitle -->
+        <p class="text-gray-600 text-center text-sm mb-8">Join us early and help shape the future of flexible work.</p>
+
+        <!-- Form -->
+        <form id="betaForm" class="space-y-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-900 mb-3">Select Your Platform</label>
+            <div class="grid grid-cols-2 gap-3">
+              <button type="button" data-platform="android" class="platform-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> Android</button>
+              <button type="button" data-platform="ios" class="platform-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> iOS</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-900 mb-3">I am a</label>
+            <div class="grid grid-cols-2 gap-3">
+              <button type="button" data-role="employee" class="role-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> Shift Seeker</button>
+              <button type="button" data-role="employer" class="role-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> Business</button>
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-semibold text-gray-900 mb-2">Email Address</label>
+            <input id="email" type="email" required class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:outline-none focus:border-blue-900 transition text-sm" placeholder="your@email.com" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-900 mb-3">Help us improve with feedback?</label>
+            <div class="grid grid-cols-2 gap-3">
+              <button type="button" data-feedback="yes" class="feedback-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> Yes</button>
+              <button type="button" data-feedback="no" class="feedback-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> No</button>
+            </div>
+          </div>
+
+          <p id="errorMsg" class="text-sm text-red-600 hidden text-center"></p>
+          <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition text-sm sm:text-base" style="cursor: pointer;">Get Beta Access</button>
+        </form>
+
+        <!-- Thank You State -->
+<div id="thankYou" class="hidden text-center">
+  <div class="flex justify-center mb-6">
+    <svg class="w-20 h-20" viewBox="0 0 24 24" fill="none">
+      <circle class="checkmark-circle" cx="12" cy="12" r="10" stroke="#DC143C" stroke-width="2" />
+      <path class="checkmark-path" d="M8 12.5L10.5 15L16 9" stroke="#DC143C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+    </svg>
+  </div>
+  <h2 class="text-2xl font-bold mb-2 text-blue-900">Thank you for joining the beta!</h2>
+  <p class="text-gray-600 text-sm mb-3">
+    We’ve received your details. You’ll get an email soon with instructions to install the Anytime Shift beta app.
+  </p>
+  <p class="text-gray-600 text-xs mb-2">
+    If you opted in for feedback, we’ll also send you a short feedback form after you’ve had some time with the app.
+  </p>
+  <p class="text-xs text-gray-500">
+    Check your inbox and spam folder in case our email lands there.
+  </p>
+</div>
+
+
+      <!-- Footer -->
+      <p class="text-center text-xs text-gray-600 mt-6"> 2026 Anytime Shift. All rights reserved.</p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('betaForm');
+    const thankYou = document.getElementById('thankYou');
+    const errorMsg = document.getElementById('errorMsg');
+    let selectedPlatform = null;
+    let selectedRole = null;
+    let wantsFeedback = null;
+
+    function setActive(groupClass, value) {
+      const buttons = document.querySelectorAll('.' + groupClass);
+      const key = groupClass === 'platform-btn' ? 'platform' : groupClass === 'role-btn' ? 'role' : 'feedback';
+      
+      buttons.forEach(btn => {
+        if (btn.dataset[key] === value) {
+          btn.classList.add('btn-active');
+        } else {
+          btn.classList.remove('btn-active');
+        }
+      });
+    }
+
+    document.querySelectorAll('.platform-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => { 
+        e.preventDefault();
+        selectedPlatform = btn.dataset.platform; 
+        setActive('platform-btn', selectedPlatform);
+      });
+    });
+
+    document.querySelectorAll('.role-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => { 
+        e.preventDefault();
+        selectedRole = btn.dataset.role; 
+        setActive('role-btn', selectedRole);
+      });
+    });
+
+    document.querySelectorAll('.feedback-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => { 
+        e.preventDefault();
+        wantsFeedback = btn.dataset.feedback === 'yes'; 
+        setActive('feedback-btn', btn.dataset.feedback);
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.classList.add('hidden');
+      const email = document.getElementById('email').value.trim();
+
+      if (!selectedPlatform || !selectedRole || wantsFeedback === null) {
+        errorMsg.textContent = 'Please complete all fields.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const res = await fetch('/.netlify/functions/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, platform: selectedPlatform, role: selectedRole, wantsFeedback })
+        });
+
+        if (!res.ok) throw new Error('Submission failed');
+        form.classList.add('hidden');
+        thankYou.classList.remove('hidden');
+      } catch (err) {
+        errorMsg.textContent = 'Unable to submit. Please try again.';
+        errorMsg.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

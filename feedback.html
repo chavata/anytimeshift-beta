@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Anytime Shift - Beta Feedback</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="text-2xl font-bold">
+          <span class="text-blue-900">Anytime</span><span class="text-red-600">Shift</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="flex-grow flex items-center justify-center px-4 py-8">
+      <div class="w-full max-w-md">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+          <h1 class="text-3xl font-bold text-center mb-1">
+            <span class="text-red-600">Help Us</span> Improve
+          </h1>
+          <p class="text-gray-600 text-center mb-8">
+            Your feedback helps us make Anytime Shift better for everyone.
+          </p>
+
+          <form id="feedbackForm" class="space-y-6">
+            <!-- App Experience Rating -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-3">How was your overall app experience?</label>
+              <div class="grid grid-cols-5 gap-2">
+                <button type="button" data-rating="1" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">1</button>
+                <button type="button" data-rating="2" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">2</button>
+                <button type="button" data-rating="3" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">3</button>
+                <button type="button" data-rating="4" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">4</button>
+                <button type="button" data-rating="5" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">5</button>
+              </div>
+            </div>
+
+            <!-- UI/UX Rating -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-3">How would you rate the UI/UX?</label>
+              <div class="grid grid-cols-5 gap-2">
+                <button type="button" data-rating="1" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">1</button>
+                <button type="button" data-rating="2" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">2</button>
+                <button type="button" data-rating="3" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">3</button>
+                <button type="button" data-rating="4" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">4</button>
+                <button type="button" data-rating="5" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">5</button>
+              </div>
+            </div>
+
+            <!-- Performance Rating -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 mb-3">How would you rate the app performance?</label>
+              <div class="grid grid-cols-5 gap-2">
+                <button type="button" data-rating="1" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">1</button>
+                <button type="button" data-rating="2" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">2</button>
+                <button type="button" data-rating="3" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">3</button>
+                <button type="button" data-rating="4" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">4</button>
+                <button type="button" data-rating="5" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">5</button>
+              </div>
+            </div>
+
+            <!-- General Feedback -->
+            <div>
+              <label for="generalFeedback" class="block text-sm font-semibold text-gray-900 mb-2">Additional feedback (optional)</label>
+              <textarea id="generalFeedback" rows="4" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:outline-none focus:border-blue-900 transition" placeholder="Tell us what you think..."></textarea>
+            </div>
+
+            <!-- Contact for follow up -->
+            <div class="flex items-center space-x-3">
+              <input type="checkbox" id="contactForFollowUp" class="w-4 h-4 rounded border-gray-300 text-blue-900 focus:ring-blue-900" />
+              <label for="contactForFollowUp" class="text-sm text-gray-900">
+                You can contact me for follow-up questions
+              </label>
+            </div>
+
+            <!-- Error/Success Messages -->
+            <p id="errorMsg" class="text-sm text-red-600 hidden text-center"></p>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition">
+              Submit Feedback
+            </button>
+          </form>
+
+          <!-- Thank You State -->
+          <div id="thankYou" class="hidden text-center">
+            <div class="flex justify-center mb-4">
+              <svg class="h-16 w-16 text-red-600" viewBox="0 0 24 24" fill="none">
+                ircle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                <path d="M8 12.5L10.5 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold mb-2 text-blue-900">Thank You!</h2>
+            <p class="text-gray-600">
+              We really appreciate you taking the time to help us improve Anytime Shift.
+            </p>
+          </div>
+        </div>
+        <p class="text-center text-sm text-gray-600 mt-6"> 2026 Anytime Shift. All rights reserved.</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const form = document.getElementById('feedbackForm');
+    const thankYou = document.getElementById('thankYou');
+    const errorMsg = document.getElementById('errorMsg');
+    
+    let appExperienceRating = null;
+    let uiUxRating = null;
+    let performanceRating = null;
+
+    // Get token from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (!token) {
+      errorMsg.textContent = 'Invalid feedback link. Please use the link from your email.';
+      errorMsg.classList.remove('hidden');
+      form.style.display = 'none';
+    }
+
+    // Rating button handlers
+    function setRatingActive(groupClass, value) {
+      document.querySelectorAll('.' + groupClass).forEach(btn => {
+        if (btn.dataset.rating === String(value)) {
+          btn.classList.add('bg-blue-900', 'text-white', 'border-blue-900');
+          btn.classList.remove('border-gray-300');
+        } else {
+          btn.classList.remove('bg-blue-900', 'text-white', 'border-blue-900');
+          btn.classList.add('border-gray-300');
+        }
+      });
+    }
+
+    document.querySelectorAll('.app-rating').forEach(btn => {
+      btn.addEventListener('click', () => {
+        appExperienceRating = btn.dataset.rating;
+        setRatingActive('app-rating', appExperienceRating);
+      });
+    });
+
+    document.querySelectorAll('.uiux-rating').forEach(btn => {
+      btn.addEventListener('click', () => {
+        uiUxRating = btn.dataset.rating;
+        setRatingActive('uiux-rating', uiUxRating);
+      });
+    });
+
+    document.querySelectorAll('.performance-rating').forEach(btn => {
+      btn.addEventListener('click', () => {
+        performanceRating = btn.dataset.rating;
+        setRatingActive('performance-rating', performanceRating);
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.classList.add('hidden');
+      errorMsg.textContent = '';
+
+      const generalFeedback = document.getElementById('generalFeedback').value.trim();
+      const contactForFollowUp = document.getElementById('contactForFollowUp').checked;
+
+      if (!appExperienceRating || !uiUxRating || !performanceRating) {
+        errorMsg.textContent = 'Please rate all three categories.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      const payload = {
+        token,
+        appExperienceRating: parseInt(appExperienceRating),
+        uiUxRating: parseInt(uiUxRating),
+        performanceRating: parseInt(performanceRating),
+        generalFeedback,
+        contactForFollowUp
+      };
+
+      try {
+        const res = await fetch('/.netlify/functions/submitFeedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.message || 'Failed to submit feedback.');
+        }
+
+        form.classList.add('hidden');
+        thankYou.classList.remove('hidden');
+      } catch (err) {
+        errorMsg.textContent = err.message || 'Unable to submit feedback at the moment.';
+        errorMsg.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
