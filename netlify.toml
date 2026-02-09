@@ -13,7 +13,7 @@
 
 [[scheduled_functions]]
   name = "sendFeedbackEmails-scheduled"
-  schedule = "@hourly"
+  schedule = "*/5 * * * *"  # Runs every 5 minutes
 
 [[scheduled_functions]]
   name = "sendFeedbackReminders-scheduled"

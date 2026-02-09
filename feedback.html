@@ -4,117 +4,590 @@
   <meta charset="utf-8" />
   <title>Anytime Shift - Beta Feedback</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-text {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .logo-blue { color: #001f3f; }
+    .logo-red { color: #DC143C; }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: 1.125rem;
+      color: #666;
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .section {
+      margin-bottom: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .section:last-of-type {
+      border-bottom: none;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #001f3f;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .question-group {
+      margin-bottom: 2.5rem;
+    }
+
+    .question-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .question-label {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .required {
+      color: #DC143C;
+      margin-left: 0.25rem;
+    }
+
+    .rating-container {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .rating-group {
+      display: flex;
+      gap: 0.5rem;
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .rating-btn {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: #666;
+      position: relative;
+    }
+
+    .rating-btn:hover {
+      border-color: #001f3f;
+      transform: translateY(-2px);
+    }
+
+    .rating-btn.selected {
+      background: #001f3f;
+      border-color: #001f3f;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .rating-labels {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 0.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .checkbox-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .checkbox-item:hover {
+      border-color: #001f3f;
+      background: #f8f9fa;
+    }
+
+    .checkbox-item.checked {
+      border-color: #001f3f;
+      background: #f0f4f8;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #001f3f;
+    }
+
+    .checkbox-label {
+      flex: 1;
+      font-weight: 500;
+      color: #333;
+      cursor: pointer;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 1rem;
+      resize: vertical;
+      transition: all 0.2s;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #001f3f;
+    }
+
+    .contact-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.25rem;
+      background: #f8f9fa;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .contact-checkbox input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      accent-color: #DC143C;
+    }
+
+    .contact-checkbox label {
+      font-weight: 500;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .error-msg {
+      display: none;
+      background: #fee;
+      color: #c33;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1.25rem;
+      background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.125rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px rgba(0, 31, 63, 0.3);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 31, 63, 0.4);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .thank-you {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    .thank-you.visible {
+      display: block;
+    }
+
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #DC143C;
+      margin: 0 auto 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .checkmark svg {
+      width: 48px;
+      height: 48px;
+      stroke: white;
+      stroke-width: 3;
+      fill: none;
+    }
+
+    .thank-you h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #001f3f;
+      margin-bottom: 1rem;
+    }
+
+    .thank-you p {
+      font-size: 1.125rem;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+
+      .form-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .header h1 {
+        font-size: 1.75rem;
+      }
+
+      .section-title {
+        font-size: 1.25rem;
+      }
+
+      .rating-group {
+        min-width: 100%;
+      }
+
+      .rating-btn {
+        padding: 0.875rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
-  <div class="min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="bg-white border-b border-gray-200">
-      <div class="max-w-7xl mx-auto px-6 py-4">
-        <div class="text-2xl font-bold">
-          <span class="text-blue-900">Anytime</span><span class="text-red-600">Shift</span>
-        </div>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <span class="logo-text logo-blue">Anytime</span>
+        <span class="logo-text logo-red">Shift</span>
       </div>
-    </header>
+      <h1>Help Us Improve</h1>
+      <p>Your detailed feedback helps us build a better app for everyone</p>
+    </div>
 
-    <!-- Main -->
-    <main class="flex-grow flex items-center justify-center px-4 py-8">
-      <div class="w-full max-w-md">
-        <div class="bg-white rounded-2xl shadow-lg p-8">
-          <h1 class="text-3xl font-bold text-center mb-1">
-            <span class="text-red-600">Help Us</span> Improve
-          </h1>
-          <p class="text-gray-600 text-center mb-8">
-            Your feedback helps us make Anytime Shift better for everyone.
-          </p>
+    <div class="form-card">
+      <form id="feedbackForm">
+        <!-- Registration & Login Flow -->
+        <div class="section">
+          <h2 class="section-title">Registration & Login</h2>
+          <p class="section-subtitle">How was your experience signing up and logging in?</p>
 
-          <form id="feedbackForm" class="space-y-6">
-            <!-- App Experience Rating -->
-            <div>
-              <label class="block text-sm font-semibold text-gray-900 mb-3">How was your overall app experience?</label>
-              <div class="grid grid-cols-5 gap-2">
-                <button type="button" data-rating="1" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">1</button>
-                <button type="button" data-rating="2" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">2</button>
-                <button type="button" data-rating="3" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">3</button>
-                <button type="button" data-rating="4" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">4</button>
-                <button type="button" data-rating="5" class="rating-btn app-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">5</button>
+          <div class="question-group">
+            <label class="question-label">Manual Login Experience<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group">
+                <button type="button" class="rating-btn" data-rating="manualLogin" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-rating="manualLogin" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-rating="manualLogin" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-rating="manualLogin" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-rating="manualLogin" data-value="5">5</button>
+              </div>
+              <div class="rating-labels">
+                <span>Poor</span>
+                <span>Excellent</span>
               </div>
             </div>
+          </div>
 
-            <!-- UI/UX Rating -->
-            <div>
-              <label class="block text-sm font-semibold text-gray-900 mb-3">How would you rate the UI/UX?</label>
-              <div class="grid grid-cols-5 gap-2">
-                <button type="button" data-rating="1" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">1</button>
-                <button type="button" data-rating="2" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">2</button>
-                <button type="button" data-rating="3" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">3</button>
-                <button type="button" data-rating="4" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">4</button>
-                <button type="button" data-rating="5" class="rating-btn uiux-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">5</button>
+          <div class="question-group">
+            <label class="question-label">Google Login Experience<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group">
+                <button type="button" class="rating-btn" data-rating="googleLogin" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-rating="googleLogin" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-rating="googleLogin" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-rating="googleLogin" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-rating="googleLogin" data-value="5">5</button>
+              </div>
+              <div class="rating-labels">
+                <span>Poor</span>
+                <span>Excellent</span>
               </div>
             </div>
+          </div>
 
-            <!-- Performance Rating -->
-            <div>
-              <label class="block text-sm font-semibold text-gray-900 mb-3">How would you rate the app performance?</label>
-              <div class="grid grid-cols-5 gap-2">
-                <button type="button" data-rating="1" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">1</button>
-                <button type="button" data-rating="2" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">2</button>
-                <button type="button" data-rating="3" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">3</button>
-                <button type="button" data-rating="4" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">4</button>
-                <button type="button" data-rating="5" class="rating-btn performance-rating px-2 py-3 rounded-lg border-2 border-gray-300 bg-white font-bold hover:border-blue-900 transition">5</button>
+          <div class="question-group">
+            <label class="question-label">Did you encounter any issues during registration?</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="reg_error_messages" value="Error messages unclear">
+                <label for="reg_error_messages" class="checkbox-label">Error messages were unclear</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="reg_password_requirements" value="Password requirements confusing">
+                <label for="reg_password_requirements" class="checkbox-label">Password requirements were confusing</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="reg_google_login_failed" value="Google login failed">
+                <label for="reg_google_login_failed" class="checkbox-label">Google login didn't work</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="reg_forgot_password" value="Forgot password didn't work">
+                <label for="reg_forgot_password" class="checkbox-label">Forgot password functionality had issues</label>
               </div>
             </div>
-
-            <!-- General Feedback -->
-            <div>
-              <label for="generalFeedback" class="block text-sm font-semibold text-gray-900 mb-2">Additional feedback (optional)</label>
-              <textarea id="generalFeedback" rows="4" class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:outline-none focus:border-blue-900 transition" placeholder="Tell us what you think..."></textarea>
-            </div>
-
-            <!-- Contact for follow up -->
-            <div class="flex items-center space-x-3">
-              <input type="checkbox" id="contactForFollowUp" class="w-4 h-4 rounded border-gray-300 text-blue-900 focus:ring-blue-900" />
-              <label for="contactForFollowUp" class="text-sm text-gray-900">
-                You can contact me for follow-up questions
-              </label>
-            </div>
-
-            <!-- Error/Success Messages -->
-            <p id="errorMsg" class="text-sm text-red-600 hidden text-center"></p>
-
-            <!-- Submit Button -->
-            <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition">
-              Submit Feedback
-            </button>
-          </form>
-
-          <!-- Thank You State -->
-          <div id="thankYou" class="hidden text-center">
-            <div class="flex justify-center mb-4">
-              <svg class="h-16 w-16 text-red-600" viewBox="0 0 24 24" fill="none">
-                ircle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-                <path d="M8 12.5L10.5 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-            <h2 class="text-2xl font-bold mb-2 text-blue-900">Thank You!</h2>
-            <p class="text-gray-600">
-              We really appreciate you taking the time to help us improve Anytime Shift.
-            </p>
           </div>
         </div>
-        <p class="text-center text-sm text-gray-600 mt-6"> 2026 Anytime Shift. All rights reserved.</p>
+
+        <!-- Job Flow -->
+        <div class="section">
+          <h2 class="section-title">Job Management</h2>
+          <p class="section-subtitle">How did job posting, browsing, and application work for you?</p>
+
+          <div class="question-group">
+            <label class="question-label">Job Creation/Posting<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group">
+                <button type="button" class="rating-btn" data-rating="jobPosting" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-rating="jobPosting" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-rating="jobPosting" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-rating="jobPosting" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-rating="jobPosting" data-value="5">5</button>
+              </div>
+              <div class="rating-labels">
+                <span>Difficult</span>
+                <span>Easy</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">Job Search & Filtering<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group">
+                <button type="button" class="rating-btn" data-rating="jobSearch" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-rating="jobSearch" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-rating="jobSearch" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-rating="jobSearch" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-rating="jobSearch" data-value="5">5</button>
+              </div>
+              <div class="rating-labels">
+                <span>Confusing</span>
+                <span>Intuitive</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">Job Application Process<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group">
+                <button type="button" class="rating-btn" data-rating="jobApplication" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-rating="jobApplication" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-rating="jobApplication" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-rating="jobApplication" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-rating="jobApplication" data-value="5">5</button>
+              </div>
+              <div class="rating-labels">
+                <span>Complex</span>
+                <span>Smooth</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- UI/UX & Performance -->
+        <div class="section">
+          <h2 class="section-title">Overall Experience</h2>
+          <p class="section-subtitle">Rate the app's design, usability, and performance</p>
+
+          <div class="question-group">
+            <label class="question-label">Overall App Experience<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group">
+                <button type="button" class="rating-btn" data-rating="overallExperience" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-rating="overallExperience" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-rating="overallExperience" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-rating="overallExperience" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-rating="overallExperience" data-value="5">5</button>
+              </div>
+              <div class="rating-labels">
+                <span>Poor</span>
+                <span>Excellent</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">UI/UX Design<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group">
+                <button type="button" class="rating-btn" data-rating="uiUx" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-rating="uiUx" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-rating="uiUx" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-rating="uiUx" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-rating="uiUx" data-value="5">5</button>
+              </div>
+              <div class="rating-labels">
+                <span>Confusing</span>
+                <span>Intuitive</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">App Performance<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group">
+                <button type="button" class="rating-btn" data-rating="performance" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-rating="performance" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-rating="performance" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-rating="performance" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-rating="performance" data-value="5">5</button>
+              </div>
+              <div class="rating-labels">
+                <span>Slow</span>
+                <span>Fast</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Feedback -->
+        <div class="section">
+          <h2 class="section-title">Additional Feedback</h2>
+          <p class="section-subtitle">Tell us more about your experience</p>
+
+          <div class="question-group">
+            <label class="question-label">What did you like most about the app?</label>
+            <textarea id="likeMost" placeholder="Share what worked well for you..."></textarea>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">What needs improvement?</label>
+            <textarea id="needsImprovement" placeholder="Let us know what could be better..."></textarea>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">Any bugs or issues you encountered?</label>
+            <textarea id="bugsIssues" placeholder="Describe any problems you experienced..."></textarea>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">Feature suggestions</label>
+            <textarea id="featureSuggestions" placeholder="What features would you like to see?"></textarea>
+          </div>
+        </div>
+
+        <!-- Contact Permission -->
+        <div class="contact-checkbox">
+          <input type="checkbox" id="contactForFollowUp" />
+          <label for="contactForFollowUp">You can contact me for follow-up questions</label>
+        </div>
+
+        <div id="errorMsg" class="error-msg"></div>
+
+        <button type="submit" class="submit-btn">Submit Feedback</button>
+      </form>
+
+      <div id="thankYou" class="thank-you">
+        <div class="checkmark">
+          <svg viewBox="0 0 24 24">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h2>Thank You!</h2>
+        <p>We really appreciate you taking the time to help us improve Anytime Shift.</p>
       </div>
-    </main>
+    </div>
   </div>
 
   <script>
     const form = document.getElementById('feedbackForm');
     const thankYou = document.getElementById('thankYou');
     const errorMsg = document.getElementById('errorMsg');
-    
-    let appExperienceRating = null;
-    let uiUxRating = null;
-    let performanceRating = null;
 
     // Get token from URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -122,65 +595,101 @@
 
     if (!token) {
       errorMsg.textContent = 'Invalid feedback link. Please use the link from your email.';
-      errorMsg.classList.remove('hidden');
+      errorMsg.classList.add('visible');
       form.style.display = 'none';
     }
 
+    // Store ratings
+    const ratings = {
+      manualLogin: null,
+      googleLogin: null,
+      jobPosting: null,
+      jobSearch: null,
+      jobApplication: null,
+      overallExperience: null,
+      uiUx: null,
+      performance: null
+    };
+
     // Rating button handlers
-    function setRatingActive(groupClass, value) {
-      document.querySelectorAll('.' + groupClass).forEach(btn => {
-        if (btn.dataset.rating === String(value)) {
-          btn.classList.add('bg-blue-900', 'text-white', 'border-blue-900');
-          btn.classList.remove('border-gray-300');
+    document.querySelectorAll('.rating-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const ratingType = btn.dataset.rating;
+        const value = parseInt(btn.dataset.value);
+        
+        // Update stored rating
+        ratings[ratingType] = value;
+        
+        // Update UI - remove selected from all buttons of this type
+        document.querySelectorAll(`[data-rating="${ratingType}"]`).forEach(b => {
+          b.classList.remove('selected');
+        });
+        
+        // Add selected to clicked button
+        btn.classList.add('selected');
+      });
+    });
+
+    // Checkbox item handlers
+    document.querySelectorAll('.checkbox-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'INPUT') {
+          const checkbox = item.querySelector('input[type="checkbox"]');
+          checkbox.checked = !checkbox.checked;
+        }
+        
+        if (item.querySelector('input[type="checkbox"]').checked) {
+          item.classList.add('checked');
         } else {
-          btn.classList.remove('bg-blue-900', 'text-white', 'border-blue-900');
-          btn.classList.add('border-gray-300');
+          item.classList.remove('checked');
         }
       });
-    }
-
-    document.querySelectorAll('.app-rating').forEach(btn => {
-      btn.addEventListener('click', () => {
-        appExperienceRating = btn.dataset.rating;
-        setRatingActive('app-rating', appExperienceRating);
-      });
     });
 
-    document.querySelectorAll('.uiux-rating').forEach(btn => {
-      btn.addEventListener('click', () => {
-        uiUxRating = btn.dataset.rating;
-        setRatingActive('uiux-rating', uiUxRating);
-      });
-    });
-
-    document.querySelectorAll('.performance-rating').forEach(btn => {
-      btn.addEventListener('click', () => {
-        performanceRating = btn.dataset.rating;
-        setRatingActive('performance-rating', performanceRating);
-      });
-    });
-
+    // Form submission
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      errorMsg.classList.add('hidden');
+      errorMsg.classList.remove('visible');
       errorMsg.textContent = '';
 
-      const generalFeedback = document.getElementById('generalFeedback').value.trim();
-      const contactForFollowUp = document.getElementById('contactForFollowUp').checked;
-
-      if (!appExperienceRating || !uiUxRating || !performanceRating) {
-        errorMsg.textContent = 'Please rate all three categories.';
-        errorMsg.classList.remove('hidden');
+      // Validate required ratings
+      const requiredRatings = ['manualLogin', 'googleLogin', 'jobPosting', 'jobSearch', 'jobApplication', 'overallExperience', 'uiUx', 'performance'];
+      const missingRatings = requiredRatings.filter(r => ratings[r] === null);
+      
+      if (missingRatings.length > 0) {
+        errorMsg.textContent = 'Please rate all required fields (marked with *)';
+        errorMsg.classList.add('visible');
         return;
       }
 
+      // Collect checkbox values
+      const registrationIssues = [];
+      document.querySelectorAll('.checkbox-item input:checked').forEach(cb => {
+        registrationIssues.push(cb.value);
+      });
+
+      // Prepare payload
       const payload = {
         token,
-        appExperienceRating: parseInt(appExperienceRating),
-        uiUxRating: parseInt(uiUxRating),
-        performanceRating: parseInt(performanceRating),
-        generalFeedback,
-        contactForFollowUp
+        // Ratings
+        manualLoginRating: ratings.manualLogin,
+        googleLoginRating: ratings.googleLogin,
+        jobPostingRating: ratings.jobPosting,
+        jobSearchRating: ratings.jobSearch,
+        jobApplicationRating: ratings.jobApplication,
+        overallExperienceRating: ratings.overallExperience,
+        uiUxRating: ratings.uiUx,
+        performanceRating: ratings.performance,
+        // Issues
+        registrationIssues: registrationIssues.join(', '),
+        // Text feedback
+        likeMost: document.getElementById('likeMost').value.trim(),
+        needsImprovement: document.getElementById('needsImprovement').value.trim(),
+        bugsIssues: document.getElementById('bugsIssues').value.trim(),
+        featureSuggestions: document.getElementById('featureSuggestions').value.trim(),
+        // Contact
+        contactForFollowUp: document.getElementById('contactForFollowUp').checked
       };
 
       try {
@@ -195,11 +704,11 @@
           throw new Error(data.message || 'Failed to submit feedback.');
         }
 
-        form.classList.add('hidden');
-        thankYou.classList.remove('hidden');
+        form.style.display = 'none';
+        thankYou.classList.add('visible');
       } catch (err) {
         errorMsg.textContent = err.message || 'Unable to submit feedback at the moment.';
-        errorMsg.classList.remove('hidden');
+        errorMsg.classList.add('visible');
       }
     });
   </script>
