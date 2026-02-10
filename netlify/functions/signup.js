@@ -1,21 +1,16 @@
 ﻿const nodemailer = require("nodemailer");
 const axios = require("axios");
-const { google } = require("googleapis");
 
 const BETA_TESTERS_API = "https://api.anytimeshift.com/beta_testers";
-const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxc5XmLcS3WgN8_jojcZFPz2HPqcKHYo4zEtDURqiQQ2Gb7IklEZ4m8yReqbBGrFGEb/exec";
-
-// (Optional) keep this if you ever want to manage Google Groups from Node;
-// right now all group membership is handled in Apps Script, so this helper
-// is intentionally unused.
-
-// exports.addEmailToPlayStore = ...
+const GAS_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbxc5XmLcS3WgN8_jojcZFPz2HPqcKHYo4zEtDURqiQQ2Gb7IklEZ4m8yReqbBGrFGEb/exec";
 
 exports.handler = async (event) => {
+  // Only allow POST
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
-      body: JSON.stringify({ message: "Method Not Allowed" })
+      body: JSON.stringify({ message: "Method Not Allowed" }),
     };
   }
 
@@ -26,38 +21,55 @@ exports.handler = async (event) => {
     if (!platform || !role || !email) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: "Missing required fields" })
+        body: JSON.stringify({ message: "Missing required fields" }),
       };
     }
 
-    const normalizedPlatform = platform.toLowerCase();
-    const normalizedRole = role.toLowerCase();
+    if (!process.env.EMAIL_PASS) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: "EMAIL_PASS not configured" }),
+      };
+    }
+
+    // Normalize values
+    const normalizedPlatform = String(platform).trim().toLowerCase();
+    const roleRaw = String(role).trim().toLowerCase();
+
+    // UI sends: "Shift Seeker" | "Business"
+    const normalizedRole =
+      roleRaw.includes("shift") || roleRaw.includes("employee")
+        ? "employee"
+        : "employer";
 
     let appLink = "";
-    let packageName = "";
+    let appLabel = "";
 
+    // Determine app link
     if (normalizedPlatform === "android") {
       if (normalizedRole === "employee") {
         appLink = "https://play.google.com/apps/internaltest/4701244117919733299";
-        packageName = "com.anytimeshift.employee";
+        appLabel = "Android – Shift Seeker";
       } else {
         appLink = "https://play.google.com/apps/internaltest/4700935281386516321";
-        packageName = "com.anytimeshift.employer";
+        appLabel = "Android – Business";
       }
     } else if (normalizedPlatform === "ios") {
       if (normalizedRole === "employee") {
         appLink = "https://testflight.apple.com/join/hUTzGr2L";
+        appLabel = "iOS – Shift Seeker";
       } else {
         appLink = "https://testflight.apple.com/join/g7Qp7977";
+        appLabel = "iOS – Business";
       }
     } else {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: "Invalid platform" })
+        body: JSON.stringify({ message: "Invalid platform" }),
       };
     }
 
-    // Save to external API (optional, ignore errors)
+    // Save to external API (optional)
     try {
       await axios.post(
         BETA_TESTERS_API,
@@ -65,15 +77,15 @@ exports.handler = async (event) => {
           platform: normalizedPlatform,
           role: normalizedRole,
           email,
-          wantsFeedback: !!wantsFeedback
+          wantsFeedback: !!wantsFeedback,
         },
-        { timeout: 5000 }
+        { timeout: 8000 }
       );
     } catch (err) {
-      console.log("Warning: Failed to post to BETA_TESTERS_API:", err.message);
+      console.log("Warning: BETA_TESTERS_API failed:", err.message);
     }
 
-    // Save to Google Apps Script (Sheet + feedback + group enrollment)
+    // Save to Google Apps Script
     try {
       await axios.post(
         GAS_ENDPOINT,
@@ -83,105 +95,100 @@ exports.handler = async (event) => {
           platform: normalizedPlatform,
           role: normalizedRole,
           wantsFeedback: !!wantsFeedback,
-          initialEmailSentAt: new Date().toISOString()
+          initialEmailSentAt: new Date().toISOString(),
         },
-        { timeout: 5000 }
+        { timeout: 8000 }
       );
     } catch (err) {
-      console.log("Warning: Failed to post to GAS_ENDPOINT:", err.message);
+      console.log("Warning: GAS endpoint failed:", err.message);
     }
 
-    // Nodemailer transporter (user + internal emails)
+    // Mail transporter
     const transporter = nodemailer.createTransport({
       service: "gmail",
-      auth: { user: "info@anytimeshift.com", pass: process.env.EMAIL_PASS }
+      auth: {
+        user: "info@anytimeshift.com",
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
-    // INTERNAL ALERT helper
-    async function sendInternalAlert({ email, platform, role }) {
-      try {
-        const subject = `New ${platform} beta signup – ${role}`;
-        const text = [
-          `A new beta tester signed up.`,
-          ``,
-          `Email: ${email}`,
-          `Platform: ${platform}`,
-          `Role: ${role}`,
-          ``,
-          `Quick links:`,
-          `Google Sheet: https://docs.google.com/spreadsheets/d/1RC1rOCwy_6erX-PDKWyW21j1LntRST02rKIFkSwiMIE/edit#gid=0`,
-          `Play Console (Employee internal testing): https://play.google.com/console/u/2/developers/6639093078553189104/app/4974596505108916957/tracks/internal-testing?tab=testers`,
-          `Play Console (Employer internal testing): https://play.google.com/console/u/2/developers/6639093078553189104/app/4972702056459215594/tracks/internal-testing?tab=testers`
-        ].join("\n");
+    // Verify transporter
+    await transporter.verify();
 
-        await transporter.sendMail({
-          from: '"Anytime Shift Internal" <info@anytimeshift.com>',
-          to: "info@anytimeshift.com",
-          subject,
-          text
-        });
-
-        console.log("Internal alert email sent for", email);
-      } catch (err) {
-        console.error("Failed to send internal alert email:", err.message);
-      }
-    }
-
-    // Send welcome email to user
+    // Send welcome email
     const subject = "Your Anytime Shift beta app link";
-    const lines = [
-      `Hi,`,
-      ``,
-      `Thanks for signing up for the Anytime Shift beta!`,
-      ``,
-      `Here is your app link:`,
+
+    const text = [
+      "Hi,",
+      "",
+      "Thanks for signing up for the Anytime Shift beta!",
+      "",
+      "Here is your app link:",
       appLink,
-      ``,
+      "",
       `Platform: ${normalizedPlatform === "android" ? "Android" : "iOS"}`,
-      `Role: ${
-        normalizedRole === "employee"
-          ? "Shift Seeker (Employee)"
-          : "Business (Employer)"
-      }`,
-      ``,
+      `Role: ${normalizedRole === "employee" ? "Shift Seeker" : "Business"}`,
+      "",
       wantsFeedback
-        ? "You'll receive a follow-up email in a few hours to share your feedback."
-        : "If you change your mind, you can always reply to this email with your feedback.",
-      ``,
-      `Thank you,`,
-      `Anytime Shift Team`
-    ];
+        ? "You’ll receive a follow-up email later with a short feedback form."
+        : "You can reply to this email anytime with feedback.",
+      "",
+      "Thank you,",
+      "Anytime Shift Team",
+    ].join("\n");
+
+    const html = `
+      <div style="font-family:Arial,sans-serif;line-height:1.5">
+        <p>Hi,</p>
+        <p>Thanks for signing up for the <strong>Anytime Shift beta</strong>.</p>
+        <p><strong>Your app link:</strong></p>
+        <p>
+          <a href="${appLink}"
+             style="background:#1e3a8a;color:#fff;padding:12px 18px;
+                    border-radius:8px;text-decoration:none;font-weight:bold">
+            Open Beta App
+          </a>
+        </p>
+        <p style="color:#555">Or copy: ${appLink}</p>
+        <p><strong>${appLabel}</strong></p>
+        <p>
+          ${
+            wantsFeedback
+              ? "You’ll receive a follow-up email later with a short feedback form."
+              : "You can reply to this email anytime with feedback."
+          }
+        </p>
+        <p>Thank you,<br/>Anytime Shift Team</p>
+      </div>
+    `;
 
     await transporter.sendMail({
       from: '"Anytime Shift" <info@anytimeshift.com>',
       to: email,
       subject,
-      text: lines.join("\n")
+      text,
+      html,
     });
 
-    console.log("Welcome email sent to", email);
-
-    // Fire-and-forget internal alert for Android signups
+    // Internal alert for Android signups (fire-and-forget)
     if (normalizedPlatform === "android") {
-      sendInternalAlert({
-        email,
-        platform: "Android",
-        role: normalizedRole === "employee" ? "Employee" : "Business"
-      }).catch((err) => {
-        console.error("Error sending internal alert:", err.message);
-      });
+      transporter.sendMail({
+        from: '"Anytime Shift Internal" <info@anytimeshift.com>',
+        to: "info@anytimeshift.com",
+        subject: `New beta signup – ${appLabel}`,
+        text: `Email: ${email}\nPlatform: ${normalizedPlatform}\nRole: ${normalizedRole}`,
+      }).catch(() => {});
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Signup processed successfully" })
+      body: JSON.stringify({ message: "Signup processed successfully" }),
     };
   } catch (err) {
-    console.error("Error in signup function:", err.message);
-    console.error(err);
+    console.error("Signup error:", err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: "Internal Server Error" })
+      body: JSON.stringify({ message: "Internal Server Error" }),
     };
   }
 };
