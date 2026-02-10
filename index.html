@@ -1,213 +1,202 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Anytime Shift Beta Signup</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>AnytimeShift – Beta Testing</title>
+
   <style>
-    .btn-active {
-      background-color: #001f3f !important;
-      color: white !important;
-      border-color: #001f3f !important;
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #f5f7fb;
+      color: #0f172a;
     }
 
-    @keyframes checkmark-animation {
-      0% {
-        stroke-dashoffset: 66;
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        stroke-dashoffset: 0;
-        opacity: 1;
-      }
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
     }
 
-    .checkmark-circle {
-      animation: checkmark-animation 0.6s ease-in-out forwards;
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 24px 22px;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.08);
     }
 
-    .checkmark-path {
-      animation: checkmark-animation 0.8s ease-in-out forwards;
-      stroke-dasharray: 66;
-      stroke-dashoffset: 66;
+    .brand {
+      text-align: center;
+      margin-bottom: 14px;
     }
 
-    @media (max-width: 640px) {
-      .form-container {
-        padding: 1.5rem;
-      }
-      .logo-icon {
-        width: 50px;
-        height: 50px;
-      }
-      .brand-text {
-        font-size: 1.5rem;
-      }
+    .brand img {
+      width: 220px;
+      max-width: 70%;
+      height: auto;
+    }
+
+    .brand .subtitle {
+      margin-top: 6px;
+      font-weight: 800;
+      color: #d71920;
+      font-size: 14px;
+    }
+
+    .headline {
+      text-align: center;
+      color: #4b5563;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      margin: 18px 0 10px;
+      font-size: 16px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .choice {
+      padding: 14px;
+      border-radius: 14px;
+      border: 2px solid #d1d5db;
+      background: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .choice.selected {
+      border-color: #1e3a8a;
+      background: #eef2ff;
+      box-shadow: 0 6px 16px rgba(30,58,138,0.15);
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: 2px solid #d1d5db;
+      font-size: 16px;
+    }
+
+    .primary-btn {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      font-size: 16px;
+      font-weight: 800;
+      background: #1e3a8a;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .primary-btn:disabled {
+      background: #9aa6c2;
+      cursor: not-allowed;
+    }
+
+    /* SUCCESS VIEW */
+    .success {
+      display: none;
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      margin: 14px auto;
+      border-radius: 50%;
+      border: 3px solid #d71920;
+      color: #d71920;
+      font-size: 34px;
+      display: grid;
+      place-items: center;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 22px;
     }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
-  <div class="min-h-screen flex items-center justify-center px-4 py-8">
-    <div class="w-full max-w-md">
-      <!-- Form Card -->
-      <div class="bg-white rounded-2xl shadow-lg form-container p-8">
-        <!-- Logo and Brand Name -->
-        <div class="flex items-center justify-center gap-3 mb-8">
-          <svg class="logo-icon w-16 h-16" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <!-- Blue circle background -->
-            ircle cx="50" cy="50" r="48" fill="#001f3f"/>
-            <!-- Red circle accent -->
-            ircle cx="65" cy="35" r="15" fill="#DC143C"/>
-            <!-- White A letter -->
-            <text x="50" y="65" text-anchor="middle" font-size="28" font-weight="bold" fill="white">A</text>
-          </svg>
-          <div>
-            <h1 class="brand-text text-2xl font-bold">
-              <span class="text-blue-900">Anytime</span><span class="text-red-600">Shift</span>
-            </h1>
-            <p class="text-xs text-red-600 font-semibold">Beta Testing</p>
-          </div>
+
+<body>
+<div class="wrap">
+  <div class="card">
+
+    <!-- FORM VIEW -->
+    <div id="formView">
+      <div class="brand">
+        <img src="./anytimeshift-logo.png" alt="AnytimeShift" />
+        <div class="subtitle">Beta Testing</div>
+      </div>
+
+      <div class="headline">
+        Join us early and help shape the future of flexible work.
+      </div>
+
+      <form id="betaForm">
+        <h3>Select Your Platform</h3>
+        <div class="grid">
+          <button type="button" class="choice" data-group="platform">Android</button>
+          <button type="button" class="choice" data-group="platform">iOS</button>
         </div>
 
-        <!-- Subtitle -->
-        <p class="text-gray-600 text-center text-sm mb-8">Join us early and help shape the future of flexible work.</p>
+        <h3>I am a</h3>
+        <div class="grid">
+          <button type="button" class="choice" data-group="role">Shift Seeker</button>
+          <button type="button" class="choice" data-group="role">Business</button>
+        </div>
 
-        <!-- Form -->
-        <form id="betaForm" class="space-y-6">
-          <div>
-            <label class="block text-sm font-semibold text-gray-900 mb-3">Select Your Platform</label>
-            <div class="grid grid-cols-2 gap-3">
-              <button type="button" data-platform="android" class="platform-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> Android</button>
-              <button type="button" data-platform="ios" class="platform-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> iOS</button>
-            </div>
-          </div>
+        <h3>Email Address</h3>
+        <input id="email" type="email" placeholder="your@email.com" required />
 
-          <div>
-            <label class="block text-sm font-semibold text-gray-900 mb-3">I am a</label>
-            <div class="grid grid-cols-2 gap-3">
-              <button type="button" data-role="employee" class="role-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> Shift Seeker</button>
-              <button type="button" data-role="employer" class="role-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> Business</button>
-            </div>
-          </div>
+        <h3>Help us improve with feedback?</h3>
+        <div class="grid">
+          <button type="button" class="choice" data-group="feedback">Yes</button>
+          <button type="button" class="choice" data-group="feedback">No</button>
+        </div>
 
-          <div>
-            <label for="email" class="block text-sm font-semibold text-gray-900 mb-2">Email Address</label>
-            <input id="email" type="email" required class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 focus:outline-none focus:border-blue-900 transition text-sm" placeholder="your@email.com" />
-          </div>
+        <button id="submitBtn" class="primary-btn" disabled>
+          Get Beta Access
+        </button>
+      </form>
+    </div>
 
-          <div>
-            <label class="block text-sm font-semibold text-gray-900 mb-3">Help us improve with feedback?</label>
-            <div class="grid grid-cols-2 gap-3">
-              <button type="button" data-feedback="yes" class="feedback-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> Yes</button>
-              <button type="button" data-feedback="no" class="feedback-btn px-4 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-900 font-semibold hover:bg-blue-50 transition duration-200 text-sm sm:text-base" style="cursor: pointer;"> No</button>
-            </div>
-          </div>
+    <!-- SUCCESS VIEW -->
+    <div id="successView" class="success">
+      <div class="brand">
+        <img src="./anytimeshift-logo.png" alt="AnytimeShift" />
+        <div class="subtitle">Beta Testing</div>
+      </div>
 
-          <p id="errorMsg" class="text-sm text-red-600 hidden text-center"></p>
-          <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition text-sm sm:text-base" style="cursor: pointer;">Get Beta Access</button>
-        </form>
+      <div class="success-icon">✓</div>
+      <h2>You’re in!</h2>
+      <p>We’ve sent your beta access link to your email.</p>
+    </div>
 
-        <!-- Thank You State -->
-<div id="thankYou" class="hidden text-center">
-  <div class="flex justify-center mb-6">
-    <svg class="w-20 h-20" viewBox="0 0 24 24" fill="none">
-      <circle class="checkmark-circle" cx="12" cy="12" r="10" stroke="#DC143C" stroke-width="2" />
-      <path class="checkmark-path" d="M8 12.5L10.5 15L16 9" stroke="#DC143C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-    </svg>
+    <footer>2026 Anytime Shift. All rights reserved.</footer>
   </div>
-  <h2 class="text-2xl font-bold mb-2 text-blue-900">Thank you for joining the beta!</h2>
-  <p class="text-gray-600 text-sm mb-3">
-    We’ve received your details. You’ll get an email soon with instructions to install the Anytime Shift beta app.
-  </p>
-  <p class="text-gray-600 text-xs mb-2">
-    If you opted in for feedback, we’ll also send you a short feedback form after you’ve had some time with the app.
-  </p>
-  <p class="text-xs text-gray-500">
-    Check your inbox and spam folder in case our email lands there.
-  </p>
 </div>
 
-
-      <!-- Footer -->
-      <p class="text-center text-xs text-gray-600 mt-6"> 2026 Anytime Shift. All rights reserved.</p>
-    </div>
-  </div>
-
-  <script>
-    const form = document.getElementById('betaForm');
-    const thankYou = document.getElementById('thankYou');
-    const errorMsg = document.getElementById('errorMsg');
-    let selectedPlatform = null;
-    let selectedRole = null;
-    let wantsFeedback = null;
-
-    function setActive(groupClass, value) {
-      const buttons = document.querySelectorAll('.' + groupClass);
-      const key = groupClass === 'platform-btn' ? 'platform' : groupClass === 'role-btn' ? 'role' : 'feedback';
-      
-      buttons.forEach(btn => {
-        if (btn.dataset[key] === value) {
-          btn.classList.add('btn-active');
-        } else {
-          btn.classList.remove('btn-active');
-        }
-      });
-    }
-
-    document.querySelectorAll('.platform-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => { 
-        e.preventDefault();
-        selectedPlatform = btn.dataset.platform; 
-        setActive('platform-btn', selectedPlatform);
-      });
-    });
-
-    document.querySelectorAll('.role-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => { 
-        e.preventDefault();
-        selectedRole = btn.dataset.role; 
-        setActive('role-btn', selectedRole);
-      });
-    });
-
-    document.querySelectorAll('.feedback-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => { 
-        e.preventDefault();
-        wantsFeedback = btn.dataset.feedback === 'yes'; 
-        setActive('feedback-btn', btn.dataset.feedback);
-      });
-    });
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorMsg.classList.add('hidden');
-      const email = document.getElementById('email').value.trim();
-
-      if (!selectedPlatform || !selectedRole || wantsFeedback === null) {
-        errorMsg.textContent = 'Please complete all fields.';
-        errorMsg.classList.remove('hidden');
-        return;
-      }
-
-      try {
-        const res = await fetch('/.netlify/functions/signup', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, platform: selectedPlatform, role: selectedRole, wantsFeedback })
-        });
-
-        if (!res.ok) throw new Error('Submission failed');
-        form.classList.add('hidden');
-        thankYou.classList.remove('hidden');
-      } catch (err) {
-        errorMsg.textContent = 'Unable to submit. Please try again.';
-        errorMsg.classList.remove('hidden');
-      }
-    });
-  </script>
+<script src="./signup-client.js"></script>
 </body>
 </html>
