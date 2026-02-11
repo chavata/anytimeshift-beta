@@ -11,8 +11,18 @@ exports.config = {
 const GAS_ENDPOINT =
   "https://script.google.com/macros/s/AKfycbxc5XmLcS3WgN8_jojcZFPz2HPqcKHYo4zEtDURqiQQ2Gb7IklEZ4m8yReqbBGrFGEb/exec";
 
+// Keep using /feedback (redirects to feedback.html via netlify.toml)
 const FEEDBACK_FORM_URL_BASE =
   "https://anytimeshift-betatestingform.netlify.app/feedback";
+
+function normalizeRole(role) {
+  const r = String(role || "").trim().toLowerCase();
+  if (!r) return "";
+  if (r.includes("business") || r.includes("employer")) return "employer";
+  if (r.includes("shift") || r.includes("employee")) return "employee";
+  // fallback: return raw if already "employee"/"employer"
+  return r;
+}
 
 exports.handler = async () => {
   console.log("=== Scheduled Feedback Email Function Started ===");
@@ -73,7 +83,8 @@ exports.handler = async () => {
     const errors = [];
 
     for (const tester of testers) {
-      const { email, token } = tester;
+      // ✅ now supports role if Apps Script returns it
+      const { email, token, role } = tester;
 
       if (!email || !token) {
         console.warn("Skipping invalid tester row:", tester);
@@ -86,11 +97,19 @@ exports.handler = async () => {
         continue;
       }
 
+      const normalizedRole = normalizeRole(role);
+      const roleParam = normalizedRole
+        ? `&role=${encodeURIComponent(normalizedRole)}`
+        : "";
+
+      // ✅ feedback link includes role when available
       const feedbackLink = `${FEEDBACK_FORM_URL_BASE}?token=${encodeURIComponent(
         token
-      )}`;
+      )}${roleParam}`;
 
       console.log(`\nProcessing: ${email}`);
+      console.log(`Role: ${normalizedRole || "(not provided)"}`);
+      console.log(`Feedback link: ${feedbackLink}`);
 
       try {
         // Send email
@@ -98,18 +117,26 @@ exports.handler = async () => {
           from: '"Anytime Shift" <info@anytimeshift.com>',
           to: email,
           subject: "We'd love your feedback on Anytime Shift",
-          text: `Hi,\n\nThanks again for installing the Anytime Shift beta app.\nWe'd really appreciate your feedback: ${feedbackLink}\n\nAnytime Shift Team`,
+          text: `Hi,
+
+Thanks again for installing the Anytime Shift beta app.
+We'd really appreciate your feedback:
+${feedbackLink}
+
+Anytime Shift Team`,
           html: `
-            <p>Hi,</p>
-            <p>Thanks again for installing the Anytime Shift beta app.</p>
-            <p>We'd really appreciate your feedback:</p>
-            <p>
-              <a href="${feedbackLink}" style="display:inline-block;background-color:#001f3f;color:white;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">
-                Share Your Feedback
-              </a>
-            </p>
-            <p>Or copy this link: ${feedbackLink}</p>
-            <p>Thank you,<br>Anytime Shift Team</p>
+            <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+              <p>Hi,</p>
+              <p>Thanks again for installing the Anytime Shift beta app.</p>
+              <p>We'd really appreciate your feedback:</p>
+              <p>
+                <a href="${feedbackLink}" style="display:inline-block;background-color:#001f3f;color:white;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">
+                  Share Your Feedback
+                </a>
+              </p>
+              <p style="color:#555;">Or copy this link: ${feedbackLink}</p>
+              <p>Thank you,<br>Anytime Shift Team</p>
+            </div>
           `,
         });
 

@@ -16,3 +16,13 @@ schedule = "*/5 * * * *"
 for = "/*"
 [headers.values]
 Access-Control-Allow-Origin = "*"
+
+[[redirects]]
+  from = "/feedback"
+  to = "/feedback.html"
+  status = 200
+
+[[redirects]]
+  from = "/feedback/"
+  to = "/feedback.html"
+  status = 200
