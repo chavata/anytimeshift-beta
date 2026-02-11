@@ -6,572 +6,780 @@
   <title>Anytime Shift - Beta Feedback</title>
 
   <style>
-    :root{
-      --blue:#001f3f;
-      --red:#d71920;
-      --bg:#f5f7fb;
-      --text:#0f172a;
-      --muted:#4b5563;
-      --card:#ffffff;
-      --border:#d1d5db;
-      --shadow:0 14px 30px rgba(0,0,0,0.08);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
+    *{ box-sizing:border-box; }
+
+    body {
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 28px 14px;
+      background: #f5f7fb;
+      margin: 0;
+      padding: 2rem 1rem;
+      color: #111;
     }
-    .container{max-width: 860px; margin: 0 auto;}
-    .card{
-      background: var(--card);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      padding: 22px;
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
     }
-    header{
-      text-align:center;
-      margin-bottom: 14px;
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
     }
-    .logo{
+
+    .logo {
       display:flex;
       justify-content:center;
       align-items:center;
-      margin-bottom: 8px;
+      margin-bottom: 0.75rem;
     }
-    .logo img{width: 240px; max-width: 75%; height:auto; display:block;}
-    .subtitle{color: var(--red); font-weight: 800; font-size: 14px;}
-    h1{margin: 10px 0 6px; font-size: 26px;}
-    .intro{color: var(--muted); margin: 0 auto 16px; max-width: 65ch; line-height: 1.5;}
-    .pill{
-      display:inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(15,23,42,0.12);
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 10px;
+
+    .logo img{
+      width: 260px;
+      max-width: 75%;
+      height: auto;
+      display:block;
     }
-    .section{
-      border-top: 1px solid rgba(15,23,42,0.08);
-      padding-top: 18px;
-      margin-top: 18px;
+
+    .header h1 {
+      font-size: 2rem;
+      margin: 0.25rem 0 0.5rem;
+      color: #001f3f;
+      font-weight: 800;
     }
-    .section h2{margin: 0 0 8px; font-size: 18px; color: var(--blue);}
-    .help{margin: 0 0 14px; color: var(--muted); font-size: 14px; line-height: 1.45;}
-    .q{margin: 16px 0;}
-    .q label.title{display:block; font-weight: 800; margin-bottom: 10px;}
+
+    .header p {
+      margin: 0;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 18px;
+      padding: 2.5rem;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.08);
+    }
+
+    .section {
+      padding: 1.75rem 0;
+      border-top: 1px solid #eaecef;
+    }
+    .section:first-child { border-top: none; padding-top: 0; }
+    .section.hidden { display: none; }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #001f3f;
+      margin: 0 0 0.35rem;
+    }
+
+    .section-subtitle {
+      margin: 0 0 1.25rem;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .question-group { margin-bottom: 1.5rem; }
+
+    .question-label {
+      display: block;
+      font-weight: 750;
+      margin-bottom: 0.75rem;
+      color: #222;
+    }
+
+    .required { color: #b91c1c; margin-left: 0.35rem; font-weight: 900; }
 
     /* Rating */
-    .rating-block{
-      max-width: 520px;
-    }
-    .rating-row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .rate-btn{
-      width: 74px;
-      padding: 14px 0;
-      border-radius: 14px;
-      border: 2px solid var(--border);
-      background:#fff;
-      font-weight: 900;
-      font-size: 16px;
-      cursor:pointer;
-      transition: all 0.15s ease;
-    }
-    .rate-btn:hover{
-      border-color: rgba(30,58,138,0.45);
-    }
-    .rate-btn.selected{
-      border-color: #1e3a8a;
-      background: #eef2ff;
-      box-shadow: 0 6px 16px rgba(30,58,138,0.15);
-    }
-    .scale-labels{
-      display:flex;
-      justify-content:space-between;
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 8px;
-      padding: 0 2px;
-    }
-
-    /* Yes/No */
-    .yn-row{display:flex; gap:10px; flex-wrap:wrap;}
-    .yn-btn{
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 2px solid var(--border);
-      background:#fff;
-      font-weight: 800;
-      cursor:pointer;
-      transition: all 0.15s ease;
-      min-width: 120px;
-    }
-    .yn-btn:hover{ border-color: rgba(30,58,138,0.45); }
-    .yn-btn.selected{
-      border-color: #1e3a8a;
-      background: #eef2ff;
-      box-shadow: 0 6px 16px rgba(30,58,138,0.15);
-    }
-
-    textarea{
+    .rating-container { width: 100%; }
+    .rating-group {
+      display: flex;
+      gap: 0.75rem;
       width: 100%;
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 12px;
+    }
+    .rating-btn {
+      flex: 1;
+      padding: 1rem 0;
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #555;
+      position: relative;
+      min-width: 58px;
+    }
+    .rating-btn:hover {
+      border-color: #001f3f;
+      transform: translateY(-2px);
+    }
+    .rating-btn.selected {
+      background: #001f3f;
+      border-color: #001f3f;
+      color: white;
+      transform: scale(1.03);
+    }
+    .rating-labels {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 0.5rem;
+      padding: 0 0.25rem;
+    }
+
+    /* Single-choice buttons (Yes/No, login method) */
+    .choice-group { display:flex; gap: 0.75rem; flex-wrap: wrap; }
+    .choice-btn {
+      border: 2px solid #e0e0e0;
+      background: #fff;
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 750;
+      color: #333;
+      min-width: 170px;
+      text-align: left;
+    }
+    .choice-btn:hover { border-color: #001f3f; background:#f8fafc; }
+    .choice-btn.selected {
+      border-color: #001f3f;
+      background: #eef2ff;
+      color: #001f3f;
+    }
+
+    /* Textarea */
+    textarea {
+      width: 100%;
       min-height: 110px;
-      font-size: 14px;
+      padding: 0.9rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
       resize: vertical;
+      transition: all 0.2s;
     }
-    textarea:focus{
+    textarea:focus {
       outline: none;
-      border-color: rgba(0,31,63,0.45);
-      box-shadow: 0 0 0 3px rgba(0,31,63,0.10);
+      border-color: #001f3f;
     }
 
-    .actions{
-      margin-top: 18px;
-      display:flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items:center;
+    /* Error message */
+    .error-msg {
+      display: none;
+      background: #fee;
+      color: #c33;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+    .error-msg.visible { display: block; }
+
+    /* Submit button */
+    .submit-btn {
+      width: 100%;
+      padding: 1.15rem;
+      background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 14px rgba(0, 31, 63, 0.3);
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 31, 63, 0.4);
+    }
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
     }
 
-    .primary-btn{
-      border: 0;
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-weight: 900;
-      font-size: 16px;
-      cursor:pointer;
-      background: #1e3a8a;
-      color:#fff;
-      box-shadow: 0 10px 18px rgba(0,31,63,0.16);
-      transition: background 0.15s ease;
+    /* Thank you */
+    .thank-you {
+      display: none;
+      text-align: center;
+      padding: 3rem 1rem;
     }
-    .primary-btn:active{ transform: translateY(1px); }
-    .primary-btn:disabled{
-      background: #9aa6c2;
-      box-shadow:none;
-      cursor:not-allowed;
-      transform:none;
+    .thank-you.visible { display: block; }
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #d71920;
+      margin: 0 auto 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .checkmark svg {
+      width: 48px;
+      height: 48px;
+      stroke: white;
+      stroke-width: 3;
+      fill: none;
+    }
+    .thank-you h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #001f3f;
+      margin: 0 0 1rem;
+    }
+    .thank-you p {
+      font-size: 1.1rem;
+      color: #666;
+      line-height: 1.6;
     }
 
-    .status{color: var(--muted); font-size: 14px;}
-    .hide{display:none !important;}
-
-    .success{
-      text-align:center;
-      padding: 10px 8px;
-    }
-    .check{
-      width: 72px;
-      height: 72px;
-      border-radius: 999px;
-      margin: 14px auto;
-      display:grid;
-      place-items:center;
-      font-size: 34px;
-      font-weight: 900;
-      color: var(--red);
-      border: 3px solid rgba(215,25,32,0.35);
-      background: rgba(215,25,32,0.06);
+    @media (max-width: 640px) {
+      body { padding: 1rem 0.5rem; }
+      .form-card { padding: 1.75rem 1.25rem; }
+      .header h1 { font-size: 1.65rem; }
+      .section-title { font-size: 1.2rem; }
+      .rating-group { gap: 0.5rem; }
+      .rating-btn { padding: 0.85rem 0; font-size: 1rem; min-width: 50px; }
     }
   </style>
 </head>
-
 <body>
   <div class="container">
-    <div class="card" id="formView">
-      <header>
-        <div class="logo">
-          <img src="/anytimeshift-logo.png" alt="Anytime Shift" />
-        </div>
-        <div class="subtitle">Beta Feedback</div>
-        <h1>Help us improve</h1>
-        <p class="intro">This takes about 2–4 minutes.</p>
-        <div class="pill" id="contextPill">Loading your form…</div>
-      </header>
-
-      <form id="feedbackForm" novalidate>
-        <input type="hidden" name="token" id="token" />
-        <input type="hidden" name="role" id="role" />
-
-        <div class="section">
-          <h2>Getting started</h2>
-          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
-
-          <div class="q">
-            <label class="title">1) Registration + login experience</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="loginEase" data-left="Poor" data-right="Excellent"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="loginEase" id="loginEase" />
-          </div>
-
-          <div class="q">
-            <label class="title">2) Login method clarity (Email/Google)</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="loginMethod" data-left="Confusing" data-right="Very clear"></div>
-              <div class="scale-labels"><span>Confusing</span><span>Very clear</span></div>
-            </div>
-            <input type="hidden" name="loginMethod" id="loginMethod" />
-          </div>
-
-          <div class="q">
-            <label class="title">3) Any issues while signing up or logging in?</label>
-            <div class="yn-row" data-yn="loginIssues">
-              <button type="button" class="yn-btn" data-value="No">No</button>
-              <button type="button" class="yn-btn" data-value="Yes">Yes</button>
-            </div>
-            <input type="hidden" name="loginIssues" id="loginIssues" />
-          </div>
-
-          <div class="q">
-            <label class="title">4) If yes, what happened?</label>
-            <textarea name="loginIssueDetails" placeholder="Example: OTP didn’t arrive, error message, stuck on loading…"></textarea>
-          </div>
-        </div>
-
-        <div class="section">
-          <h2>Navigating the app</h2>
-          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
-
-          <div class="q">
-            <label class="title">5) After login, was it clear what to do first?</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="firstStepClarity"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="firstStepClarity" id="firstStepClarity" />
-          </div>
-
-          <div class="q">
-            <label class="title">6) Did any steps feel unnecessary or repeated?</label>
-            <div class="yn-row" data-yn="repetitiveSteps">
-              <button type="button" class="yn-btn" data-value="No">No</button>
-              <button type="button" class="yn-btn" data-value="Yes">Yes</button>
-            </div>
-            <input type="hidden" name="repetitiveSteps" id="repetitiveSteps" />
-          </div>
-
-          <div class="q">
-            <label class="title">7) If yes, which steps felt repeated?</label>
-            <textarea name="repetitiveStepsDetails" placeholder="Tell us which screen/step and what felt repeated."></textarea>
-          </div>
-
-          <div class="q">
-            <label class="title">8) Overall navigation ease</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="navigationEase"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="navigationEase" id="navigationEase" />
-          </div>
-        </div>
-
-        <div class="section hide" id="employeeSection">
-          <h2>Instant jobs (Shift Seeker)</h2>
-          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
-
-          <div class="q">
-            <label class="title">9) Finding instant jobs near you</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="emp_findJobs"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="emp_findJobs" id="emp_findJobs" />
-          </div>
-
-          <div class="q">
-            <label class="title">10) Job details clarity (time, location, pay)</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="emp_jobDetailsClarity"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="emp_jobDetailsClarity" id="emp_jobDetailsClarity" />
-          </div>
-
-          <div class="q">
-            <label class="title">11) Accept / reject experience</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="emp_acceptEase"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="emp_acceptEase" id="emp_acceptEase" />
-          </div>
-
-          <div class="q">
-            <label class="title">12) Any confusing steps during the job flow?</label>
-            <textarea name="emp_jobFlowIssues" placeholder="Arrival/start/end, confirmations, anything unclear…"></textarea>
-          </div>
-        </div>
-
-        <div class="section hide" id="employerSection">
-          <h2>Instant jobs (Business)</h2>
-          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
-
-          <div class="q">
-            <label class="title">9) Creating an instant job</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="biz_createJob"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="biz_createJob" id="biz_createJob" />
-          </div>
-
-          <div class="q">
-            <label class="title">10) Entering job details (time, location, pay, role)</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="biz_jobDetails"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="biz_jobDetails" id="biz_jobDetails" />
-          </div>
-
-          <div class="q">
-            <label class="title">11) Tracking who accepted/rejected</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="biz_candidateVisibility"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="biz_candidateVisibility" id="biz_candidateVisibility" />
-          </div>
-
-          <div class="q">
-            <label class="title">12) Anything missing or unclear?</label>
-            <textarea name="biz_missingInfo" placeholder="Example: confirmation, status, pay breakdown, location…"></textarea>
-          </div>
-        </div>
-
-        <div class="section">
-          <h2>Stripe setup & payments</h2>
-          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
-
-          <div class="q">
-            <label class="title">13) Stripe setup experience</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="stripeEase"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="stripeEase" id="stripeEase" />
-          </div>
-
-          <div class="q">
-            <label class="title">14) Was it clear why Stripe setup was needed?</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="stripeWhyClear"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="stripeWhyClear" id="stripeWhyClear" />
-          </div>
-
-          <div class="q">
-            <label class="title">15) Any Stripe or payment issues?</label>
-            <textarea name="stripeIssues" placeholder="Verification, bank link, errors, stuck on loading…"></textarea>
-          </div>
-
-          <div class="q">
-            <label class="title">16) Payment flow clarity (after job is done)</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="paymentClarity"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="paymentClarity" id="paymentClarity" />
-          </div>
-        </div>
-
-        <div class="section">
-          <h2>Overall</h2>
-          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
-
-          <div class="q">
-            <label class="title">17) Overall rating</label>
-            <div class="rating-block">
-              <div class="rating-row" data-rating="overallRating"></div>
-              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
-            </div>
-            <input type="hidden" name="overallRating" id="overallRating" />
-          </div>
-
-          <div class="q">
-            <label class="title">18) What worked really well?</label>
-            <textarea name="workedWell" placeholder="Tell us what you liked most."></textarea>
-          </div>
-
-          <div class="q">
-            <label class="title">19) What was the most frustrating or confusing part?</label>
-            <textarea name="mostFrustrating" placeholder="Tell us what to fix first."></textarea>
-          </div>
-
-          <div class="q">
-            <label class="title">20) What ONE change would make the app much better?</label>
-            <textarea name="oneImprovement" placeholder="One improvement that would make a big difference."></textarea>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button class="primary-btn" id="submitBtn" type="submit" disabled>Submit feedback</button>
-          <div class="status" id="status"></div>
-        </div>
-      </form>
+    <div class="header">
+      <div class="logo">
+        <img src="/anytimeshift-logo.png" alt="Anytime Shift" />
+      </div>
+      <h1>Help us improve</h1>
+      <p>This takes about 4-5 minutes</p>
     </div>
 
-    <div class="card hide" id="successView">
-      <div class="success">
-        <div class="logo">
-          <img src="/anytimeshift-logo.png" alt="Anytime Shift" />
+    <div class="form-card">
+      <form id="feedbackForm">
+        <!-- Section 1: Getting Started -->
+        <div class="section">
+          <h2 class="section-title">Getting Started</h2>
+          <p class="section-subtitle">Tell us about your signup and login experience</p>
+
+          <div class="question-group">
+            <label class="question-label">1. Registration + Login Experience<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="loginExperience">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Poor</span><span>Excellent</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">2. Which login method did you use?<span class="required">*</span></label>
+            <div class="choice-group" data-name="loginMethod">
+              <button type="button" class="choice-btn" data-value="Email">📧 Email/Password</button>
+              <button type="button" class="choice-btn" data-value="Google">🔑 Google Login</button>
+              <button type="button" class="choice-btn" data-value="Didn't try">⏸️ Didn't try login yet</button>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">3. Any issues during registration or login?</label>
+            <div class="choice-group" data-name="hadLoginIssues">
+              <button type="button" class="choice-btn" data-value="No">✓ No</button>
+              <button type="button" class="choice-btn" data-value="Yes">✗ Yes</button>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">4. If yes, please describe what happened</label>
+            <textarea name="loginIssueDetails" placeholder="Example: OTP didn't arrive, error messages unclear, got stuck on loading..."></textarea>
+          </div>
         </div>
-        <div class="subtitle">Beta Feedback</div>
-        <div class="check">✓</div>
-        <h2>Thank you!</h2>
-        <p class="intro">Your feedback was submitted successfully.</p>
+
+        <!-- Section 2: Navigation -->
+        <div class="section">
+          <h2 class="section-title">Navigation & First Impressions</h2>
+          <p class="section-subtitle">How easy was it to get around the app?</p>
+
+          <div class="question-group">
+            <label class="question-label">5. After logging in, was it clear what to do first?<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="firstStepClarity">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Confusing</span><span>Very Clear</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">6. Overall navigation ease<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="navigationEase">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Difficult</span><span>Easy</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">7. Did any steps feel unnecessary or repeated?</label>
+            <div class="choice-group" data-name="hadRepetitiveSteps">
+              <button type="button" class="choice-btn" data-value="No">✓ No</button>
+              <button type="button" class="choice-btn" data-value="Yes">✗ Yes</button>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">8. If yes, which steps?</label>
+            <textarea name="repetitiveStepsDetails" placeholder="Tell us which screens or steps felt redundant..."></textarea>
+          </div>
+        </div>
+
+        <!-- Section 3A: Employee (Shift Seeker) -->
+        <div class="section hidden" id="employeeSection">
+          <h2 class="section-title">For Shift Seekers</h2>
+          <p class="section-subtitle">Your experience finding and accepting jobs</p>
+
+          <div class="question-group">
+            <label class="question-label">9. Finding instant jobs near you<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="emp_findJobs">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Poor</span><span>Excellent</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">10. Job details clarity<span class="required">*</span></label>
+            <p style="margin:0 0 0.75rem; color:#666; font-size:0.9rem;">Time, location, pay rate information</p>
+            <div class="rating-container">
+              <div class="rating-group" data-name="emp_jobDetailsClarity">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Unclear</span><span>Very Clear</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">11. Applying/accepting jobs<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="emp_applyingJobs">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Difficult</span><span>Easy</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">12. Any confusing steps during the job flow?</label>
+            <textarea name="emp_jobFlowIssues" placeholder="Example: Arrival confirmation, start/end tracking, unclear instructions..."></textarea>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">13. Job notifications and updates</label>
+            <p style="margin:0 0 0.75rem; color:#666; font-size:0.9rem;">Alerts about new jobs, status changes, etc.</p>
+            <div class="rating-container">
+              <div class="rating-group" data-name="emp_notifications">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Poor</span><span>Excellent</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3B: Employer (Business) -->
+        <div class="section hidden" id="employerSection">
+          <h2 class="section-title">For Businesses</h2>
+          <p class="section-subtitle">Your experience posting and managing jobs</p>
+
+          <div class="question-group">
+            <label class="question-label">9. Creating/posting an instant job<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="biz_createJob">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Difficult</span><span>Easy</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">10. Entering job details<span class="required">*</span></label>
+            <p style="margin:0 0 0.75rem; color:#666; font-size:0.9rem;">Time, location, pay rate, role description</p>
+            <div class="rating-container">
+              <div class="rating-group" data-name="biz_jobDetails">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Confusing</span><span>Straightforward</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">11. Tracking candidates<span class="required">*</span></label>
+            <p style="margin:0 0 0.75rem; color:#666; font-size:0.9rem;">Seeing who viewed, applied, or accepted your job</p>
+            <div class="rating-container">
+              <div class="rating-group" data-name="biz_trackingCandidates">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Poor</span><span>Excellent</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">12. Managing active jobs</label>
+            <p style="margin:0 0 0.75rem; color:#666; font-size:0.9rem;">Editing, canceling, or updating job posts</p>
+            <div class="rating-container">
+              <div class="rating-group" data-name="biz_managingJobs">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Difficult</span><span>Easy</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">13. Anything missing or unclear?</label>
+            <textarea name="biz_missingInfo" placeholder="Example: Confirmation flow, candidate profiles, payment breakdown..."></textarea>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">14. Worker management after hire</label>
+            <p style="margin:0 0 0.75rem; color:#666; font-size:0.9rem;">Tracking arrival, hours worked, completion</p>
+            <div class="rating-container">
+              <div class="rating-group" data-name="biz_workerManagement">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Poor</span><span>Excellent</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Payments -->
+        <div class="section">
+          <h2 class="section-title">Payments (Stripe)</h2>
+          <p class="section-subtitle">How was the payment setup and flow?</p>
+
+          <div class="question-group">
+            <label class="question-label">14/15. Stripe setup experience<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="stripeSetup">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Frustrating</span><span>Smooth</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">15/16. Was it clear why Stripe setup was needed?<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="stripeWhyNeed">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>No</span><span>Yes</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">16/17. Payment flow clarity<span class="required">*</span></label>
+            <p style="margin:0 0 0.75rem; color:#666; font-size:0.9rem;">Understanding when and how you get paid (or pay workers)</p>
+            <div class="rating-container">
+              <div class="rating-group" data-name="paymentClarity">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Confusing</span><span>Clear</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">17/18. Any Stripe or payment issues?</label>
+            <textarea name="stripeIssues" placeholder="Verification problems, bank linking, error messages, stuck loading..."></textarea>
+          </div>
+        </div>
+
+        <!-- Section 5: Design & Performance -->
+        <div class="section">
+          <h2 class="section-title">Design & Performance</h2>
+          <p class="section-subtitle">Rate the app's look, feel, and speed</p>
+
+          <div class="question-group">
+            <label class="question-label">18/19. App design and interface<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="appDesign">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Unattractive</span><span>Beautiful</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">19/20. How easy was the app to use?<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="easeOfUse">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Frustrating</span><span>Intuitive</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">20/21. App performance<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="performance">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Slow/Buggy</span><span>Fast/Smooth</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">21/22. Did you encounter any bugs or crashes?</label>
+            <textarea name="bugsEncountered" placeholder="Describe what happened and where..."></textarea>
+          </div>
+        </div>
+
+        <!-- Section 6: Overall -->
+        <div class="section">
+          <h2 class="section-title">Overall Feedback</h2>
+          <p class="section-subtitle">Your final thoughts on the app</p>
+
+          <div class="question-group">
+            <label class="question-label">22/23. Overall app rating<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="overallRating">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>Poor</span><span>Excellent</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">23/24. Would you recommend Anytime Shift to others?<span class="required">*</span></label>
+            <div class="rating-container">
+              <div class="rating-group" data-name="recommend">
+                <button type="button" class="rating-btn" data-value="1">1</button>
+                <button type="button" class="rating-btn" data-value="2">2</button>
+                <button type="button" class="rating-btn" data-value="3">3</button>
+                <button type="button" class="rating-btn" data-value="4">4</button>
+                <button type="button" class="rating-btn" data-value="5">5</button>
+              </div>
+              <div class="rating-labels"><span>No</span><span>Yes</span></div>
+            </div>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">24/25. What worked really well?</label>
+            <textarea name="workedWell" placeholder="What did you like most about the app?"></textarea>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">25/26. What was the most frustrating or confusing part?</label>
+            <textarea name="mostFrustrating" placeholder="What should we fix first?"></textarea>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">26/27. What ONE change would make the app much better?</label>
+            <textarea name="oneChange" placeholder="The single most important improvement..."></textarea>
+          </div>
+
+          <div class="question-group">
+            <label class="question-label">27. Any features you wish the app had?</label>
+            <textarea name="featureWishes" placeholder="Tell us what's missing..."></textarea>
+          </div>
+        </div>
+
+        <div id="errorMsg" class="error-msg"></div>
+
+        <button type="submit" class="submit-btn">Submit Feedback</button>
+      </form>
+
+      <div id="thankYou" class="thank-you">
+        <div class="checkmark">
+          <svg viewBox="0 0 24 24">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h2>Thank You!</h2>
+        <p>We really appreciate you taking the time to help us improve Anytime Shift.</p>
       </div>
     </div>
   </div>
 
   <script>
-    const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxc5XmLcS3WgN8_jojcZFPz2HPqcKHYo4zEtDURqiQQ2Gb7IklEZ4m8yReqbBGrFGEb/exec";
-
-    const qs = new URLSearchParams(location.search);
-    const token = qs.get('token') || '';
-    const roleFromUrl = (qs.get('role') || '').toLowerCase();
-
-    const tokenEl = document.getElementById('token');
-    const roleEl = document.getElementById('role');
-    const pillEl = document.getElementById('contextPill');
-
+    const form = document.getElementById('feedbackForm');
+    const thankYou = document.getElementById('thankYou');
+    const errorMsg = document.getElementById('errorMsg');
     const employeeSection = document.getElementById('employeeSection');
     const employerSection = document.getElementById('employerSection');
 
-    const statusEl = document.getElementById('status');
-    const submitBtn = document.getElementById('submitBtn');
+    // Get token and role from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const role = urlParams.get('role') || 'employee'; // Default to employee if not specified
 
-    function normalizeRole(r){
-      const x = String(r || '').toLowerCase().trim();
-      if (!x) return '';
-      if (x.includes('employer') || x.includes('business')) return 'employer';
-      if (x.includes('employee') || x.includes('shift')) return 'employee';
-      return x;
+    // Show/hide role-specific sections
+    if (role === 'employee') {
+      employeeSection.classList.remove('hidden');
+    } else if (role === 'employer') {
+      employerSection.classList.remove('hidden');
     }
 
-    function enableSubmitIfReady(){
-      const ok = Boolean(tokenEl.value);
-      submitBtn.disabled = !ok;
-      if (!ok) statusEl.textContent = "Missing token. Please open the feedback link from your email.";
-      else statusEl.textContent = "";
+    if (!token) {
+      errorMsg.textContent = 'Invalid feedback link. Please use the link from your email.';
+      errorMsg.classList.add('visible');
+      form.style.display = 'none';
     }
 
-    function showRole(role){
-      const normalized = normalizeRole(role);
+    // Store responses
+    const responses = {};
 
-      employeeSection.classList.add('hide');
-      employerSection.classList.add('hide');
-
-      if (normalized === 'employee') {
-        employeeSection.classList.remove('hide');
-        pillEl.textContent = 'Form: Shift Seeker (Employee)';
-      } else if (normalized === 'employer') {
-        employerSection.classList.remove('hide');
-        pillEl.textContent = 'Form: Business (Employer)';
-      } else {
-        pillEl.textContent = 'Form: (Role not found — please use the email link)';
-      }
-
-      roleEl.value = normalized;
-      enableSubmitIfReady();
-    }
-
-    function buildRatingControls(){
-      document.querySelectorAll('.rating-row').forEach(row => {
-        const field = row.getAttribute('data-rating');
-        if (!field) return;
-
-        // 1..5 buttons
-        for (let i = 1; i <= 5; i++){
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'rate-btn';
-          btn.textContent = String(i);
-          btn.addEventListener('click', () => {
-            row.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            const hidden = document.getElementById(field);
-            if (hidden) hidden.value = String(i);
-          });
-          row.appendChild(btn);
-        }
-      });
-    }
-
-    function buildYesNoControls(){
-      document.querySelectorAll('.yn-row').forEach(row => {
-        const field = row.getAttribute('data-yn');
-        if (!field) return;
-
-        row.querySelectorAll('.yn-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            row.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            const hidden = document.getElementById(field);
-            if (hidden) hidden.value = btn.getAttribute('data-value');
-          });
+    // Rating button handlers
+    document.querySelectorAll('.rating-group').forEach(group => {
+      const name = group.dataset.name;
+      group.querySelectorAll('.rating-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Clear selection
+          group.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+          // Set selected
+          btn.classList.add('selected');
+          responses[name] = parseInt(btn.dataset.value);
         });
       });
-    }
+    });
 
-    async function loadContext(){
-      tokenEl.value = token;
-      enableSubmitIfReady();
+    // Choice button handlers
+    document.querySelectorAll('.choice-group').forEach(group => {
+      const name = group.dataset.name;
+      group.querySelectorAll('.choice-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Clear selection
+          group.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+          // Set selected
+          btn.classList.add('selected');
+          responses[name] = btn.dataset.value;
+        });
+      });
+    });
 
-      if (roleFromUrl) {
-        showRole(roleFromUrl);
-        return;
-      }
-
-      if (!token) return;
-
-      try {
-        const url = `${GAS_ENDPOINT}?action=getFeedbackContext&token=${encodeURIComponent(token)}`;
-        const res = await fetch(url, { method: 'GET' });
-        const data = await res.json();
-        if (data && data.role) showRole(data.role);
-        else showRole('');
-      } catch (e) {
-        showRole('');
-      }
-    }
-
-    buildRatingControls();
-    buildYesNoControls();
-    loadContext();
-
-    document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+    // Form submission
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      errorMsg.classList.remove('visible');
 
-      if (!tokenEl.value) {
-        statusEl.textContent = "Missing token. Please open the feedback link from your email.";
+      // Collect textarea values
+      form.querySelectorAll('textarea').forEach(textarea => {
+        responses[textarea.name] = textarea.value.trim();
+      });
+
+      // Validate required fields
+      const requiredFields = [
+        'loginExperience', 'loginMethod', 'firstStepClarity', 'navigationEase',
+        'stripeSetup', 'stripeWhyNeed', 'paymentClarity',
+        'appDesign', 'easeOfUse', 'performance',
+        'overallRating', 'recommend'
+      ];
+
+      // Add role-specific required fields
+      if (role === 'employee') {
+        requiredFields.push('emp_findJobs', 'emp_jobDetailsClarity', 'emp_applyingJobs');
+      } else if (role === 'employer') {
+        requiredFields.push('biz_createJob', 'biz_jobDetails', 'biz_trackingCandidates');
+      }
+
+      const missing = requiredFields.filter(field => !responses[field]);
+      
+      if (missing.length > 0) {
+        errorMsg.textContent = 'Please answer all required questions (marked with *)';
+        errorMsg.classList.add('visible');
         return;
       }
 
-      statusEl.textContent = 'Submitting…';
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting…';
-
-      const fd = new FormData(e.target);
-      const payload = { token: fd.get('token') || '', role: fd.get('role') || '' };
-
-      for (const [k, v] of fd.entries()) {
-        if (k === 'token' || k === 'role') continue;
-        payload[k] = v;
-      }
+      // Submit
+      const payload = {
+        token,
+        role,
+        ...responses
+      };
 
       try {
         const res = await fetch('/.netlify/functions/submitFeedback', {
@@ -580,15 +788,15 @@
           body: JSON.stringify(payload)
         });
 
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.message || 'Failed to submit');
+        if (!res.ok) {
+          throw new Error('Submission failed');
+        }
 
-        document.getElementById('formView').classList.add('hide');
-        document.getElementById('successView').classList.remove('hide');
+        form.style.display = 'none';
+        thankYou.classList.add('visible');
       } catch (err) {
-        statusEl.textContent = err.message || 'Something went wrong. Please try again.';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit feedback';
+        errorMsg.textContent = 'Unable to submit feedback. Please try again.';
+        errorMsg.classList.add('visible');
       }
     });
   </script>
