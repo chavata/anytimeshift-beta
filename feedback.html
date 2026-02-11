@@ -13,9 +13,8 @@
       --text:#0f172a;
       --muted:#4b5563;
       --card:#ffffff;
-      --border:rgba(15,23,42,0.12);
+      --border:#d1d5db;
       --shadow:0 14px 30px rgba(0,0,0,0.08);
-      --radius:18px;
     }
     *{box-sizing:border-box}
     body{
@@ -42,15 +41,15 @@
       align-items:center;
       margin-bottom: 8px;
     }
-    .logo img{width: 220px; max-width: 70%; height:auto; display:block;}
+    .logo img{width: 240px; max-width: 75%; height:auto; display:block;}
     .subtitle{color: var(--red); font-weight: 800; font-size: 14px;}
     h1{margin: 10px 0 6px; font-size: 26px;}
-    .intro{color: var(--muted); margin: 0 auto 16px; max-width: 60ch; line-height: 1.5;}
+    .intro{color: var(--muted); margin: 0 auto 16px; max-width: 65ch; line-height: 1.5;}
     .pill{
       display:inline-block;
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(15,23,42,0.12);
       color: var(--muted);
       font-size: 12px;
       margin-top: 10px;
@@ -62,25 +61,65 @@
     }
     .section h2{margin: 0 0 8px; font-size: 18px; color: var(--blue);}
     .help{margin: 0 0 14px; color: var(--muted); font-size: 14px; line-height: 1.45;}
-    .q{margin: 14px 0;}
-    .q label.title{display:block; font-weight: 800; margin-bottom: 8px;}
-    .req{color: var(--red); margin-left: 6px;}
-    .choices{display:flex; flex-wrap:wrap; gap: 10px;}
-    .choice{
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 10px 12px;
-      background: #fff;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      min-width: 160px;
-      transition: border-color .15s ease, transform .08s ease;
+    .q{margin: 16px 0;}
+    .q label.title{display:block; font-weight: 800; margin-bottom: 10px;}
+
+    /* Rating */
+    .rating-block{
+      max-width: 520px;
     }
-    .choice:hover{border-color: rgba(0,31,63,0.35);}
-    .choice:active{transform: translateY(1px);}
-    .choice input{transform: scale(1.1); accent-color: var(--blue);}
+    .rating-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .rate-btn{
+      width: 74px;
+      padding: 14px 0;
+      border-radius: 14px;
+      border: 2px solid var(--border);
+      background:#fff;
+      font-weight: 900;
+      font-size: 16px;
+      cursor:pointer;
+      transition: all 0.15s ease;
+    }
+    .rate-btn:hover{
+      border-color: rgba(30,58,138,0.45);
+    }
+    .rate-btn.selected{
+      border-color: #1e3a8a;
+      background: #eef2ff;
+      box-shadow: 0 6px 16px rgba(30,58,138,0.15);
+    }
+    .scale-labels{
+      display:flex;
+      justify-content:space-between;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+      padding: 0 2px;
+    }
+
+    /* Yes/No */
+    .yn-row{display:flex; gap:10px; flex-wrap:wrap;}
+    .yn-btn{
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 2px solid var(--border);
+      background:#fff;
+      font-weight: 800;
+      cursor:pointer;
+      transition: all 0.15s ease;
+      min-width: 120px;
+    }
+    .yn-btn:hover{ border-color: rgba(30,58,138,0.45); }
+    .yn-btn.selected{
+      border-color: #1e3a8a;
+      background: #eef2ff;
+      box-shadow: 0 6px 16px rgba(30,58,138,0.15);
+    }
+
     textarea{
       width: 100%;
       border: 2px solid var(--border);
@@ -90,13 +129,11 @@
       font-size: 14px;
       resize: vertical;
     }
-    textarea:focus, input:focus{
+    textarea:focus{
       outline: none;
       border-color: rgba(0,31,63,0.45);
       box-shadow: 0 0 0 3px rgba(0,31,63,0.10);
     }
-    .row{display:grid; grid-template-columns: 1fr 1fr; gap: 12px;}
-    @media (max-width: 720px){ .row{grid-template-columns:1fr;} }
 
     .actions{
       margin-top: 18px;
@@ -105,24 +142,27 @@
       flex-wrap: wrap;
       align-items:center;
     }
-    button{
+
+    .primary-btn{
       border: 0;
       border-radius: 14px;
-      padding: 12px 16px;
+      padding: 14px 18px;
       font-weight: 900;
-      font-size: 15px;
+      font-size: 16px;
       cursor:pointer;
-    }
-    .primary{
-      background: var(--blue);
+      background: #1e3a8a;
       color:#fff;
       box-shadow: 0 10px 18px rgba(0,31,63,0.16);
+      transition: background 0.15s ease;
     }
-    .primary:disabled{
+    .primary-btn:active{ transform: translateY(1px); }
+    .primary-btn:disabled{
       background: #9aa6c2;
       box-shadow:none;
       cursor:not-allowed;
+      transform:none;
     }
+
     .status{color: var(--muted); font-size: 14px;}
     .hide{display:none !important;}
 
@@ -155,289 +195,230 @@
         </div>
         <div class="subtitle">Beta Feedback</div>
         <h1>Help us improve</h1>
-        <p class="intro">
-          This takes 2–4 minutes. Answer what you tried — it’s totally okay to skip things you didn’t use.
-        </p>
+        <p class="intro">This takes about 2–4 minutes.</p>
         <div class="pill" id="contextPill">Loading your form…</div>
       </header>
 
-      <form id="feedbackForm">
+      <form id="feedbackForm" novalidate>
         <input type="hidden" name="token" id="token" />
         <input type="hidden" name="role" id="role" />
 
-        <!-- COMMON -->
         <div class="section">
           <h2>Getting started</h2>
-          <p class="help">These help us understand account setup and basic usage.</p>
+          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
 
           <div class="q">
-            <label class="title">1) Was it easy to register and log in?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input required type="radio" name="loginEase" value="Very easy"> Very easy</label>
-              <label class="choice"><input required type="radio" name="loginEase" value="Easy"> Easy</label>
-              <label class="choice"><input required type="radio" name="loginEase" value="Okay"> Okay</label>
-              <label class="choice"><input required type="radio" name="loginEase" value="Difficult"> Difficult</label>
-              <label class="choice"><input required type="radio" name="loginEase" value="Very difficult"> Very difficult</label>
+            <label class="title">1) Registration + login experience</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="loginEase" data-left="Poor" data-right="Excellent"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="loginEase" id="loginEase" />
           </div>
 
           <div class="q">
-            <label class="title">2) Which login method did you use?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input required type="radio" name="loginMethod" value="Email & password"> Email & password</label>
-              <label class="choice"><input required type="radio" name="loginMethod" value="Google sign-in"> Google sign-in</label>
+            <label class="title">2) Login method clarity (Email/Google)</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="loginMethod" data-left="Confusing" data-right="Very clear"></div>
+              <div class="scale-labels"><span>Confusing</span><span>Very clear</span></div>
             </div>
+            <input type="hidden" name="loginMethod" id="loginMethod" />
           </div>
 
           <div class="q">
-            <label class="title">3) Did you face any problems while signing up or logging in?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input required type="radio" name="loginIssues" value="No"> No</label>
-              <label class="choice"><input required type="radio" name="loginIssues" value="Yes (minor issues)"> Yes (minor issues)</label>
-              <label class="choice"><input required type="radio" name="loginIssues" value="Yes (major issues)"> Yes (major issues)</label>
+            <label class="title">3) Any issues while signing up or logging in?</label>
+            <div class="yn-row" data-yn="loginIssues">
+              <button type="button" class="yn-btn" data-value="No">No</button>
+              <button type="button" class="yn-btn" data-value="Yes">Yes</button>
             </div>
+            <input type="hidden" name="loginIssues" id="loginIssues" />
           </div>
 
           <div class="q">
-            <label class="title">4) If you faced issues, what went wrong?</label>
+            <label class="title">4) If yes, what happened?</label>
             <textarea name="loginIssueDetails" placeholder="Example: OTP didn’t arrive, error message, stuck on loading…"></textarea>
           </div>
         </div>
 
-        <!-- NAVIGATION -->
         <div class="section">
           <h2>Navigating the app</h2>
-          <p class="help">We want to know if anything felt repetitive, confusing, or too many steps.</p>
+          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
 
           <div class="q">
-            <label class="title">5) Was it easy to understand where to go first after logging in?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input required type="radio" name="firstStepClarity" value="Yes"> Yes</label>
-              <label class="choice"><input required type="radio" name="firstStepClarity" value="Somewhat"> Somewhat</label>
-              <label class="choice"><input required type="radio" name="firstStepClarity" value="No"> No</label>
+            <label class="title">5) After login, was it clear what to do first?</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="firstStepClarity"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="firstStepClarity" id="firstStepClarity" />
           </div>
 
           <div class="q">
-            <label class="title">6) Did you feel any steps were unnecessary, repeated, or confusing?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input required type="radio" name="repetitiveSteps" value="No"> No</label>
-              <label class="choice"><input required type="radio" name="repetitiveSteps" value="Yes"> Yes</label>
+            <label class="title">6) Did any steps feel unnecessary or repeated?</label>
+            <div class="yn-row" data-yn="repetitiveSteps">
+              <button type="button" class="yn-btn" data-value="No">No</button>
+              <button type="button" class="yn-btn" data-value="Yes">Yes</button>
             </div>
+            <input type="hidden" name="repetitiveSteps" id="repetitiveSteps" />
           </div>
 
           <div class="q">
-            <label class="title">7) If yes, which steps felt unnecessary or repeated?</label>
+            <label class="title">7) If yes, which steps felt repeated?</label>
             <textarea name="repetitiveStepsDetails" placeholder="Tell us which screen/step and what felt repeated."></textarea>
           </div>
 
           <div class="q">
-            <label class="title">8) Overall, how easy was it to move between screens?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input required type="radio" name="navigationEase" value="Very easy"> Very easy</label>
-              <label class="choice"><input required type="radio" name="navigationEase" value="Easy"> Easy</label>
-              <label class="choice"><input required type="radio" name="navigationEase" value="Okay"> Okay</label>
-              <label class="choice"><input required type="radio" name="navigationEase" value="Difficult"> Difficult</label>
-              <label class="choice"><input required type="radio" name="navigationEase" value="Very difficult"> Very difficult</label>
+            <label class="title">8) Overall navigation ease</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="navigationEase"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="navigationEase" id="navigationEase" />
           </div>
         </div>
 
-        <!-- EMPLOYEE QUESTIONS -->
         <div class="section hide" id="employeeSection">
           <h2>Instant jobs (Shift Seeker)</h2>
-          <p class="help">Questions about finding and accepting instant work.</p>
+          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
 
           <div class="q">
-            <label class="title">9) Was it easy to find instant jobs near your location?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="emp_findJobs" value="Very easy" required> Very easy</label>
-              <label class="choice"><input type="radio" name="emp_findJobs" value="Easy" required> Easy</label>
-              <label class="choice"><input type="radio" name="emp_findJobs" value="Okay" required> Okay</label>
-              <label class="choice"><input type="radio" name="emp_findJobs" value="Difficult" required> Difficult</label>
-              <label class="choice"><input type="radio" name="emp_findJobs" value="Very difficult" required> Very difficult</label>
+            <label class="title">9) Finding instant jobs near you</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="emp_findJobs"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="emp_findJobs" id="emp_findJobs" />
           </div>
 
           <div class="q">
-            <label class="title">10) Did you clearly understand these were instant jobs (start soon / immediate)?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="emp_instantClarity" value="Yes" required> Yes</label>
-              <label class="choice"><input type="radio" name="emp_instantClarity" value="Somewhat" required> Somewhat</label>
-              <label class="choice"><input type="radio" name="emp_instantClarity" value="No" required> No</label>
+            <label class="title">10) Job details clarity (time, location, pay)</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="emp_jobDetailsClarity"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="emp_jobDetailsClarity" id="emp_jobDetailsClarity" />
           </div>
 
           <div class="q">
-            <label class="title">11) Were job details (location, time, pay) clear before accepting?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="emp_jobDetailsClarity" value="Very clear" required> Very clear</label>
-              <label class="choice"><input type="radio" name="emp_jobDetailsClarity" value="Somewhat clear" required> Somewhat clear</label>
-              <label class="choice"><input type="radio" name="emp_jobDetailsClarity" value="Not clear" required> Not clear</label>
+            <label class="title">11) Accept / reject experience</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="emp_acceptEase"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="emp_acceptEase" id="emp_acceptEase" />
           </div>
 
           <div class="q">
-            <label class="title">12) Was it easy to accept or reject an instant job?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="emp_acceptEase" value="Very easy" required> Very easy</label>
-              <label class="choice"><input type="radio" name="emp_acceptEase" value="Easy" required> Easy</label>
-              <label class="choice"><input type="radio" name="emp_acceptEase" value="Okay" required> Okay</label>
-              <label class="choice"><input type="radio" name="emp_acceptEase" value="Difficult" required> Difficult</label>
-              <label class="choice"><input type="radio" name="emp_acceptEase" value="Very difficult" required> Very difficult</label>
-            </div>
-          </div>
-
-          <div class="q">
-            <label class="title">13) Did you clearly understand when the job started and ended?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="emp_startEndClarity" value="Yes" required> Yes</label>
-              <label class="choice"><input type="radio" name="emp_startEndClarity" value="Somewhat" required> Somewhat</label>
-              <label class="choice"><input type="radio" name="emp_startEndClarity" value="No" required> No</label>
-            </div>
-          </div>
-
-          <div class="q">
-            <label class="title">14) Did anything feel confusing during the instant job flow? (arrival, start, end)</label>
-            <textarea name="emp_jobFlowIssues" placeholder="Tell us what happened and where you got confused."></textarea>
+            <label class="title">12) Any confusing steps during the job flow?</label>
+            <textarea name="emp_jobFlowIssues" placeholder="Arrival/start/end, confirmations, anything unclear…"></textarea>
           </div>
         </div>
 
-        <!-- EMPLOYER QUESTIONS -->
         <div class="section hide" id="employerSection">
           <h2>Instant jobs (Business)</h2>
-          <p class="help">Questions about posting and managing instant hiring.</p>
+          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
 
           <div class="q">
-            <label class="title">9) Was it easy to create an instant job?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="biz_createJob" value="Very easy" required> Very easy</label>
-              <label class="choice"><input type="radio" name="biz_createJob" value="Easy" required> Easy</label>
-              <label class="choice"><input type="radio" name="biz_createJob" value="Okay" required> Okay</label>
-              <label class="choice"><input type="radio" name="biz_createJob" value="Difficult" required> Difficult</label>
-              <label class="choice"><input type="radio" name="biz_createJob" value="Very difficult" required> Very difficult</label>
+            <label class="title">9) Creating an instant job</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="biz_createJob"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="biz_createJob" id="biz_createJob" />
           </div>
 
           <div class="q">
-            <label class="title">10) Were you able to clearly enter job details (location, time, pay, role)?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="biz_jobDetails" value="Yes" required> Yes</label>
-              <label class="choice"><input type="radio" name="biz_jobDetails" value="Somewhat" required> Somewhat</label>
-              <label class="choice"><input type="radio" name="biz_jobDetails" value="No" required> No</label>
+            <label class="title">10) Entering job details (time, location, pay, role)</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="biz_jobDetails"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="biz_jobDetails" id="biz_jobDetails" />
           </div>
 
           <div class="q">
-            <label class="title">11) Was it easy to see who accepted or rejected your job?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="biz_candidateVisibility" value="Very easy" required> Very easy</label>
-              <label class="choice"><input type="radio" name="biz_candidateVisibility" value="Easy" required> Easy</label>
-              <label class="choice"><input type="radio" name="biz_candidateVisibility" value="Okay" required> Okay</label>
-              <label class="choice"><input type="radio" name="biz_candidateVisibility" value="Difficult" required> Difficult</label>
-              <label class="choice"><input type="radio" name="biz_candidateVisibility" value="Very difficult" required> Very difficult</label>
+            <label class="title">11) Tracking who accepted/rejected</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="biz_candidateVisibility"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="biz_candidateVisibility" id="biz_candidateVisibility" />
           </div>
 
           <div class="q">
-            <label class="title">12) Did you clearly understand when the worker arrived and started the job?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="biz_arrivalClarity" value="Yes" required> Yes</label>
-              <label class="choice"><input type="radio" name="biz_arrivalClarity" value="Somewhat" required> Somewhat</label>
-              <label class="choice"><input type="radio" name="biz_arrivalClarity" value="No" required> No</label>
-            </div>
-          </div>
-
-          <div class="q">
-            <label class="title">13) What information felt missing or unclear while posting or managing the instant job?</label>
-            <textarea name="biz_missingInfo" placeholder="Example: pay field, location, role selection, confirmation…"></textarea>
+            <label class="title">12) Anything missing or unclear?</label>
+            <textarea name="biz_missingInfo" placeholder="Example: confirmation, status, pay breakdown, location…"></textarea>
           </div>
         </div>
 
-        <!-- STRIPE -->
         <div class="section">
           <h2>Stripe setup & payments</h2>
-          <p class="help">This is critical for instant jobs to work smoothly.</p>
+          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
 
-          <div class="row">
-            <div class="q">
-              <label class="title">15) Were you asked to set up a Stripe account?<span class="req">*</span></label>
-              <div class="choices">
-                <label class="choice"><input required type="radio" name="stripeAsked" value="Yes"> Yes</label>
-                <label class="choice"><input required type="radio" name="stripeAsked" value="No"> No</label>
-              </div>
+          <div class="q">
+            <label class="title">13) Stripe setup experience</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="stripeEase"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
-
-            <div class="q">
-              <label class="title">16) How easy was Stripe setup?<span class="req">*</span></label>
-              <div class="choices">
-                <label class="choice"><input required type="radio" name="stripeEase" value="Very easy"> Very easy</label>
-                <label class="choice"><input required type="radio" name="stripeEase" value="Easy"> Easy</label>
-                <label class="choice"><input required type="radio" name="stripeEase" value="Okay"> Okay</label>
-                <label class="choice"><input required type="radio" name="stripeEase" value="Difficult"> Difficult</label>
-                <label class="choice"><input required type="radio" name="stripeEase" value="Very difficult"> Very difficult</label>
-              </div>
-            </div>
+            <input type="hidden" name="stripeEase" id="stripeEase" />
           </div>
 
           <div class="q">
-            <label class="title">17) Did you understand why Stripe setup was needed?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input required type="radio" name="stripeWhyClear" value="Yes"> Yes</label>
-              <label class="choice"><input required type="radio" name="stripeWhyClear" value="Somewhat"> Somewhat</label>
-              <label class="choice"><input required type="radio" name="stripeWhyClear" value="No"> No</label>
+            <label class="title">14) Was it clear why Stripe setup was needed?</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="stripeWhyClear"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="stripeWhyClear" id="stripeWhyClear" />
           </div>
 
           <div class="q">
-            <label class="title">18) Did you face any issues during Stripe setup or payments?</label>
-            <textarea name="stripeIssues" placeholder="Example: verification, bank link, errors, stuck on loading…"></textarea>
+            <label class="title">15) Any Stripe or payment issues?</label>
+            <textarea name="stripeIssues" placeholder="Verification, bank link, errors, stuck on loading…"></textarea>
           </div>
 
           <div class="q">
-            <label class="title">19) Was it clear when and how payment works after the job is done?<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input required type="radio" name="paymentClarity" value="Very clear"> Very clear</label>
-              <label class="choice"><input required type="radio" name="paymentClarity" value="Somewhat clear"> Somewhat clear</label>
-              <label class="choice"><input required type="radio" name="paymentClarity" value="Not clear"> Not clear</label>
+            <label class="title">16) Payment flow clarity (after job is done)</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="paymentClarity"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="paymentClarity" id="paymentClarity" />
           </div>
         </div>
 
-        <!-- OVERALL -->
         <div class="section">
           <h2>Overall</h2>
-          <p class="help">Final thoughts so we can prioritize fixes.</p>
+          <p class="help">Rate from 1 (Poor) to 5 (Excellent).</p>
 
           <div class="q">
-            <label class="title">20) Overall rating<span class="req">*</span></label>
-            <div class="choices">
-              <label class="choice"><input required type="radio" name="overallRating" value="1"> ⭐ 1</label>
-              <label class="choice"><input required type="radio" name="overallRating" value="2"> ⭐ 2</label>
-              <label class="choice"><input required type="radio" name="overallRating" value="3"> ⭐ 3</label>
-              <label class="choice"><input required type="radio" name="overallRating" value="4"> ⭐ 4</label>
-              <label class="choice"><input required type="radio" name="overallRating" value="5"> ⭐ 5</label>
+            <label class="title">17) Overall rating</label>
+            <div class="rating-block">
+              <div class="rating-row" data-rating="overallRating"></div>
+              <div class="scale-labels"><span>Poor</span><span>Excellent</span></div>
             </div>
+            <input type="hidden" name="overallRating" id="overallRating" />
           </div>
 
           <div class="q">
-            <label class="title">21) What worked really well?</label>
+            <label class="title">18) What worked really well?</label>
             <textarea name="workedWell" placeholder="Tell us what you liked most."></textarea>
           </div>
 
           <div class="q">
-            <label class="title">22) What was the most frustrating or confusing part?</label>
+            <label class="title">19) What was the most frustrating or confusing part?</label>
             <textarea name="mostFrustrating" placeholder="Tell us what to fix first."></textarea>
           </div>
 
           <div class="q">
-            <label class="title">23) What ONE change would make this app much better for you?</label>
+            <label class="title">20) What ONE change would make the app much better?</label>
             <textarea name="oneImprovement" placeholder="One improvement that would make a big difference."></textarea>
           </div>
         </div>
 
         <div class="actions">
-          <button class="primary" id="submitBtn" type="submit">Submit feedback</button>
+          <button class="primary-btn" id="submitBtn" type="submit" disabled>Submit feedback</button>
           <div class="status" id="status"></div>
         </div>
       </form>
@@ -461,7 +442,7 @@
 
     const qs = new URLSearchParams(location.search);
     const token = qs.get('token') || '';
-    const roleFromUrl = (qs.get('role') || '').toLowerCase(); // "employee" / "employer" (or business/shift-seeker)
+    const roleFromUrl = (qs.get('role') || '').toLowerCase();
 
     const tokenEl = document.getElementById('token');
     const roleEl = document.getElementById('role');
@@ -481,6 +462,13 @@
       return x;
     }
 
+    function enableSubmitIfReady(){
+      const ok = Boolean(tokenEl.value);
+      submitBtn.disabled = !ok;
+      if (!ok) statusEl.textContent = "Missing token. Please open the feedback link from your email.";
+      else statusEl.textContent = "";
+    }
+
     function showRole(role){
       const normalized = normalizeRole(role);
 
@@ -498,39 +486,84 @@
       }
 
       roleEl.value = normalized;
+      enableSubmitIfReady();
+    }
+
+    function buildRatingControls(){
+      document.querySelectorAll('.rating-row').forEach(row => {
+        const field = row.getAttribute('data-rating');
+        if (!field) return;
+
+        // 1..5 buttons
+        for (let i = 1; i <= 5; i++){
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'rate-btn';
+          btn.textContent = String(i);
+          btn.addEventListener('click', () => {
+            row.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const hidden = document.getElementById(field);
+            if (hidden) hidden.value = String(i);
+          });
+          row.appendChild(btn);
+        }
+      });
+    }
+
+    function buildYesNoControls(){
+      document.querySelectorAll('.yn-row').forEach(row => {
+        const field = row.getAttribute('data-yn');
+        if (!field) return;
+
+        row.querySelectorAll('.yn-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            row.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const hidden = document.getElementById(field);
+            if (hidden) hidden.value = btn.getAttribute('data-value');
+          });
+        });
+      });
     }
 
     async function loadContext(){
       tokenEl.value = token;
+      enableSubmitIfReady();
 
-      // Best case: role passed via email link
       if (roleFromUrl) {
         showRole(roleFromUrl);
         return;
       }
 
-      // Fallback: try Apps Script lookup by token
+      if (!token) return;
+
       try {
         const url = `${GAS_ENDPOINT}?action=getFeedbackContext&token=${encodeURIComponent(token)}`;
         const res = await fetch(url, { method: 'GET' });
         const data = await res.json();
-        if (data && data.role) {
-          showRole(data.role);
-          return;
-        }
-        showRole('');
+        if (data && data.role) showRole(data.role);
+        else showRole('');
       } catch (e) {
         showRole('');
       }
     }
 
+    buildRatingControls();
+    buildYesNoControls();
     loadContext();
 
     document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      if (!tokenEl.value) {
+        statusEl.textContent = "Missing token. Please open the feedback link from your email.";
+        return;
+      }
+
       statusEl.textContent = 'Submitting…';
       submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting…';
 
       const fd = new FormData(e.target);
       const payload = { token: fd.get('token') || '', role: fd.get('role') || '' };
@@ -546,6 +579,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
+
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data.message || 'Failed to submit');
 
@@ -554,6 +588,7 @@
       } catch (err) {
         statusEl.textContent = err.message || 'Something went wrong. Please try again.';
         submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit feedback';
       }
     });
   </script>
