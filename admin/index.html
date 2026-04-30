@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AnytimeShift – Admin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #f5f7fb;
+      color: #0f172a;
+    }
+    button { font-family: inherit; }
+
+    /* topbar */
+    .topbar {
+      background: #001f3f;
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .topbar h1 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: 0.3px; }
+    .topbar .accent { color: #d71920; }
+    .topbar button {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .topbar button:hover { background: rgba(255,255,255,0.1); }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 24px; }
+
+    /* KPI cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .kpi-card .label {
+      color: #6b7280;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .kpi-card .value {
+      font-size: 36px;
+      font-weight: 800;
+      color: #001f3f;
+      margin-top: 4px;
+      line-height: 1.1;
+    }
+    .kpi-card .sub { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
+    /* chart cards */
+    .chart-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      color: #001f3f;
+      font-weight: 700;
+    }
+    .chart-wrap { position: relative; height: 220px; }
+    .big-chart { height: 320px; }
+
+    /* tables */
+    .table-card { margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    table th, table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    table th {
+      background: #f8fafc;
+      font-weight: 700;
+      color: #475569;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    table tr:last-child td { border-bottom: none; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge.android  { background: #dcfce7; color: #166534; }
+    .badge.ios      { background: #dbeafe; color: #1e40af; }
+    .badge.employee { background: #fef3c7; color: #92400e; }
+    .badge.employer { background: #ede9fe; color: #6b21a8; }
+    .badge.yes      { background: #dcfce7; color: #166534; }
+    .badge.no       { background: #fee2e2; color: #991b1b; }
+
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-bar select, .filter-bar input {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .filter-bar input { min-width: 200px; }
+
+    .view-btn {
+      background: transparent;
+      border: 1px solid #d1d5db;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .empty {
+      color: #9ca3af;
+      font-style: italic;
+      padding: 24px;
+      text-align: center;
+    }
+
+    /* login */
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .login-card {
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 400px;
+    }
+    .login-card h2 { margin: 0 0 6px; color: #001f3f; }
+    .login-card p {
+      color: #6b7280;
+      margin: 0 0 20px;
+      font-size: 14px;
+    }
+    .login-card input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 12px;
+      font-family: inherit;
+    }
+    .login-card button {
+      width: 100%;
+      padding: 12px;
+      background: #001f3f;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .login-card button:disabled { background: #9aa6c2; cursor: not-allowed; }
+    .err { color: #b91c1c; font-size: 13px; margin-top: 8px; text-align: center; min-height: 18px; }
+
+    .loading { text-align: center; padding: 60px; color: #6b7280; }
+
+    .feedback-detail {
+      background: #f8fafc;
+      padding: 16px;
+    }
+    .feedback-detail pre {
+      white-space: pre-wrap;
+      margin: 0;
+      font-size: 12px;
+      color: #334155;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN VIEW -->
+<div id="loginView" class="login-wrap">
+  <div class="login-card">
+    <h2>Admin Login</h2>
+    <p>AnytimeShift Beta Dashboard</p>
+    <input id="passwordInput" type="password" placeholder="Password" autofocus />
+    <button id="loginBtn">Sign in</button>
+    <div id="loginErr" class="err"></div>
+  </div>
+</div>
+
+<!-- DASHBOARD VIEW -->
+<div id="dashboardView" style="display:none;">
+  <div class="topbar">
+    <h1>AnytimeShift <span class="accent">Admin</span></h1>
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+  <div class="container">
+    <div id="loadingMsg" class="loading">Loading data…</div>
+
+    <div id="dashboardContent" style="display:none;">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="label">Total Signups</div>
+          <div class="value" id="kpi-totalSignups">–</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Feedback Received</div>
+          <div class="value" id="kpi-totalFeedback">–</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Completion Rate</div>
+          <div class="value"><span id="kpi-completionRate">–</span>%</div>
+          <div class="sub">of users who opted in</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Last 24 Hours</div>
+          <div class="value" id="kpi-last24h">–</div>
+          <div class="sub">new signups</div>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <div class="card">
+          <h3>Platform</h3>
+          <div class="chart-wrap"><canvas id="chart-platform"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>Role</h3>
+          <div class="chart-wrap"><canvas id="chart-role"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>Wants Feedback</h3>
+          <div class="chart-wrap"><canvas id="chart-feedback"></canvas></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 24px;">
+        <h3>Signups (Last 30 Days)</h3>
+        <div class="chart-wrap big-chart"><canvas id="chart-timeseries"></canvas></div>
+      </div>
+
+      <div class="card" style="margin-bottom: 24px;">
+        <h3>Average Ratings by Question</h3>
+        <div class="chart-wrap big-chart"><canvas id="chart-ratings"></canvas></div>
+      </div>
+
+      <div class="card table-card">
+        <h3>Signups</h3>
+        <div class="filter-bar">
+          <select id="filter-platform">
+            <option value="">All platforms</option>
+            <option value="android">Android</option>
+            <option value="ios">iOS</option>
+          </select>
+          <select id="filter-role">
+            <option value="">All roles</option>
+            <option value="employee">Shift Seeker</option>
+            <option value="employer">Business</option>
+          </select>
+          <input id="filter-search" placeholder="Search email…" />
+        </div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Platform</th>
+                <th>Role</th>
+                <th>Wants Feedback</th>
+                <th>Signed Up</th>
+                <th>Feedback Email Sent</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-signups"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card table-card">
+        <h3>Feedback Responses</h3>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Submitted</th>
+                <th>Role</th>
+                <th>Overall</th>
+                <th>Recommend</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody-feedback"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script src="./admin.js"></script>
+</body>
+</html>

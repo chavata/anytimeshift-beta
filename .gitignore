@@ -1,8 +1,19 @@
+# Dependencies — Netlify reinstalls these on every build
+node_modules/
 
-# Service Account Keys - DO NOT COMMIT
+# Environment variables — secrets live in Netlify, not in git
+.env
+.env.local
+.env.*.local
+
+# Service account keys — DO NOT COMMIT
 *service-account*.json
 *credentials*.json
 anytime-shift-gmail-*.json
 
 # Local Netlify folder
 .netlify
+
+# OS junk
+.DS_Store
+Thumbs.db

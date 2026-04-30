@@ -34,7 +34,8 @@ document.getElementById("betaForm").addEventListener("submit", async (e) => {
     platform: state.platform,
     role: state.role,
     email: emailEl.value.trim(),
-    wantsFeedback: state.feedback === "Yes"
+    wantsFeedback: state.feedback === "Yes",
+    website: document.getElementById("website")?.value || ""
   };
 
   const res = await fetch("/.netlify/functions/signup", {

@@ -1,30 +1,56 @@
-const axios = require('axios');
-
-// Apps Script endpoint (stores feedback into your Google Sheet)
-const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxc5XmLcS3WgN8_jojcZFPz2HPqcKHYo4zEtDURqiQQ2Gb7IklEZ4m8yReqbBGrFGEb/exec';
+const { getSupabase } = require("./_lib/supabase");
 
 exports.handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ message: 'Method not allowed' }) };
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: JSON.stringify({ message: "Method not allowed" }) };
   }
 
+  let payload;
   try {
-    const payload = JSON.parse(event.body || '{}');
-    payload.action = 'submitFeedback';
-
-    // Minimal validation
-    if (!payload.token) {
-      return { statusCode: 400, body: JSON.stringify({ message: 'Missing token' }) };
-    }
-    if (!payload.role) {
-      return { statusCode: 400, body: JSON.stringify({ message: 'Missing role' }) };
-    }
-
-    const res = await axios.post(GAS_ENDPOINT, payload, { timeout: 12000 });
-
-    return { statusCode: 200, body: JSON.stringify(res.data) };
-  } catch (err) {
-    console.error('Error submitting feedback:', err);
-    return { statusCode: 500, body: JSON.stringify({ message: 'Internal server error' }) };
+    payload = JSON.parse(event.body || "{}");
+  } catch {
+    return { statusCode: 400, body: JSON.stringify({ message: "Invalid JSON" }) };
   }
+
+  const { token, role, ...responses } = payload;
+
+  if (!token) {
+    return { statusCode: 400, body: JSON.stringify({ message: "Missing token" }) };
+  }
+  if (!role) {
+    return { statusCode: 400, body: JSON.stringify({ message: "Missing role" }) };
+  }
+
+  const supabase = getSupabase();
+
+  const { data: tester, error: findErr } = await supabase
+    .from("beta_testers")
+    .select("id")
+    .eq("feedback_token", token)
+    .maybeSingle();
+
+  if (findErr) {
+    console.error("Lookup error:", findErr);
+    return { statusCode: 500, body: JSON.stringify({ message: "Database error" }) };
+  }
+  if (!tester) {
+    return { statusCode: 404, body: JSON.stringify({ message: "Invalid token" }) };
+  }
+
+  const { error: upsertErr } = await supabase.from("feedback_responses").upsert(
+    {
+      tester_id: tester.id,
+      role,
+      responses,
+      submitted_at: new Date().toISOString(),
+    },
+    { onConflict: "tester_id" }
+  );
+
+  if (upsertErr) {
+    console.error("Upsert error:", upsertErr);
+    return { statusCode: 500, body: JSON.stringify({ message: "Failed to save feedback" }) };
+  }
+
+  return { statusCode: 200, body: JSON.stringify({ message: "Feedback submitted" }) };
 };

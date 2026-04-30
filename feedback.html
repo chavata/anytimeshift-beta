@@ -704,6 +704,17 @@
       employerSection.classList.remove('hidden');
     }
 
+    // Question labels carry "X/Y." prefixes (employee number / employer number).
+    // Pick the right one for this user's role.
+    document.querySelectorAll('.question-label').forEach(label => {
+      const firstNode = label.firstChild;
+      if (!firstNode || firstNode.nodeType !== Node.TEXT_NODE) return;
+      firstNode.textContent = firstNode.textContent.replace(
+        /^(\d+)\/(\d+)\./,
+        (_, emp, biz) => `${role === 'employer' ? biz : emp}.`
+      );
+    });
+
     if (!token) {
       errorMsg.textContent = 'Invalid feedback link. Please use the link from your email.';
       errorMsg.classList.add('visible');

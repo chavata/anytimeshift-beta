@@ -9,9 +9,6 @@ NODE_VERSION = "18"
 directory = "netlify/functions"
 node_bundler = "esbuild"
 
-[functions."sendFeedbackEmails-scheduled"]
-schedule = "*/5 * * * *"
-
 [[headers]]
 for = "/*"
 [headers.values]
@@ -25,4 +22,14 @@ Access-Control-Allow-Origin = "*"
 [[redirects]]
   from = "/feedback/"
   to = "/feedback.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/"
+  to = "/admin/index.html"
   status = 200
