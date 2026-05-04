@@ -200,17 +200,146 @@
 
     .loading { text-align: center; padding: 60px; color: #6b7280; }
 
-    .feedback-detail {
-      background: #f8fafc;
-      padding: 16px;
-    }
-    .feedback-detail pre {
-      white-space: pre-wrap;
-      margin: 0;
+    /* rating pill (used in row + detail headers) */
+    .rating-pill {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
       font-size: 12px;
-      color: #334155;
-      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-weight: 700;
+      white-space: nowrap;
     }
+    .rating-pill.good  { background: #dcfce7; color: #166534; }
+    .rating-pill.mid   { background: #fef3c7; color: #92400e; }
+    .rating-pill.bad   { background: #fee2e2; color: #991b1b; }
+    .rating-pill.empty { background: #f1f5f9; color: #64748b; }
+
+    .export-btn {
+      background: #001f3f;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .export-btn:hover { background: #003366; }
+
+    /* rich expanded feedback view */
+    .fb-detail {
+      background: #f8fafc;
+      padding: 20px;
+    }
+    .fb-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 12px 14px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+    .fb-meta strong { color: #475569; }
+    .fb-meta a { color: #1e3a8a; text-decoration: none; }
+    .fb-meta a:hover { text-decoration: underline; }
+
+    .fb-section {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+    .fb-section h4 {
+      margin: 0 0 10px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #001f3f;
+      font-weight: 800;
+    }
+    .fb-section.fb-section-text {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+    .fb-section.fb-section-text h4 { color: #854d0e; }
+
+    .fb-q {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    .fb-q + .fb-q { border-top: 1px dashed #f1f5f9; }
+    .fb-q-label { color: #334155; flex: 1; }
+    .fb-q-choice {
+      font-weight: 600;
+      color: #0f172a;
+      background: #f1f5f9;
+      padding: 2px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .fb-q-rating { display: flex; align-items: center; gap: 10px; }
+    .fb-rating-bar {
+      width: 140px;
+      height: 8px;
+      background: #f1f5f9;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .fb-rating-fill { height: 100%; border-radius: 999px; transition: width 0.2s; }
+    .fb-rating-fill.fb-rating-good { background: #10b981; }
+    .fb-rating-fill.fb-rating-mid  { background: #f59e0b; }
+    .fb-rating-fill.fb-rating-bad  { background: #ef4444; }
+    .fb-rating-num {
+      font-weight: 700;
+      font-size: 13px;
+      color: #475569;
+      min-width: 40px;
+      text-align: right;
+    }
+
+    .fb-text-q { padding: 6px 0; }
+    .fb-text-q + .fb-text-q {
+      border-top: 1px solid #fef3c7;
+      margin-top: 8px;
+      padding-top: 12px;
+    }
+    .fb-text-label {
+      font-weight: 700;
+      color: #92400e;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
+    }
+    .fb-text-value {
+      color: #1f2937;
+      font-size: 14px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+    .fb-empty {
+      color: #9ca3af;
+      font-style: italic;
+      font-size: 13px;
+    }
+
+    .table-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .table-card-header h3 { margin: 0; }
   </style>
 </head>
 <body>
@@ -316,12 +445,32 @@
       </div>
 
       <div class="card table-card">
-        <h3>Feedback Responses</h3>
+        <div class="table-card-header">
+          <h3>Feedback Responses</h3>
+          <button id="export-feedback-csv" class="export-btn">Download CSV</button>
+        </div>
+        <div class="filter-bar">
+          <select id="fb-filter-role">
+            <option value="">All roles</option>
+            <option value="employee">Shift Seeker</option>
+            <option value="employer">Business</option>
+          </select>
+          <select id="fb-filter-rating">
+            <option value="">Any overall rating</option>
+            <option value="5">Overall = 5</option>
+            <option value="4">Overall ≥ 4</option>
+            <option value="3">Overall ≥ 3</option>
+            <option value="lt3">Overall &lt; 3 (problems)</option>
+          </select>
+          <input id="fb-filter-search" placeholder="Search email or text…" />
+        </div>
         <div style="overflow-x:auto;">
           <table>
             <thead>
               <tr>
                 <th>Submitted</th>
+                <th>Email</th>
+                <th>Platform</th>
                 <th>Role</th>
                 <th>Overall</th>
                 <th>Recommend</th>
