@@ -9,6 +9,9 @@ NODE_VERSION = "18"
 directory = "netlify/functions"
 node_bundler = "esbuild"
 
+[functions."sendFeedbackEmails-scheduled"]
+schedule = "*/5 * * * *"
+
 [[headers]]
 for = "/*"
 [headers.values]
